@@ -1,7 +1,7 @@
 package hu.otemplom.karbantarto.model;
 
 import hu.otemplom.karbantarto.model.Exceptions.User.*;
-
+import hu.otemplom.karbantarto.model.Role;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +10,8 @@ public class User {
     private int Id;
     private String FullName;
     private String Username;
-
+    private Role Role;
+    private String Password;
     public int getId() {
         return Id;
     }
@@ -48,5 +49,24 @@ public class User {
         else Username = username;
     }
 
+    public String getPassword() {
+        return Password;
+    }
 
+    public void setPassword(String password) throws InvalidPasswordException {
+        if(password == null) throw new InvalidPasswordException("The password cannot be null.");
+        else if (password.length() < 6) throw new InvalidPasswordException("The password is too short(min:6)");
+        else if (password.length() > 12) throw new InvalidPasswordException("The password is too short(max:12)");
+        else if (password.trim().length() == 0) throw new InvalidPasswordException("The password cannot be full of white spaces");
+        Password = password;
+    }
+
+    public Role getRole() {
+        return Role;
+    }
+
+    public void setRole(Role role) throws InvalidRoleException {
+        if(role == null) throw new InvalidRoleException("The given role is null. Please check again");
+        Role = role;
+    }
 }

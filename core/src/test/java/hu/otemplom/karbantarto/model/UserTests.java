@@ -72,4 +72,38 @@ public class UserTests {
     public void SetInvalidUsernameWithSpecialChar() throws InvalidUsernameException {
         user.setUsername("*/.:%!;");
     }
+    @Test
+    public void SetValidRole() throws InvalidRoleException {
+        user.setRole(Role.Janitor);
+        Assert.assertEquals(Role.Janitor,user.getRole());
+    }
+    @Test(expected = InvalidRoleException.class)
+    public void SetNullToRole() throws InvalidRoleException {
+        user.setRole(null);
+
+    }
+    @Test
+    public void SetValidPassword() throws InvalidPasswordException {
+        user.setPassword("Misike05");
+        Assert.assertEquals("Misike05",user.getPassword());
+    }
+    @Test(expected = InvalidPasswordException.class)
+    public void SetNullPassword() throws InvalidPasswordException {
+        user.setPassword(null);
+    }
+    @Test(expected = InvalidPasswordException.class)
+    public void SetTooShorPassword() throws InvalidPasswordException {
+        user.setPassword("m");
+
+    }
+    @Test(expected = InvalidPasswordException.class)
+    public void SetTooLongPassword() throws InvalidPasswordException {
+        user.setPassword("Misike05Misike05Misike05");
+
+    }
+    @Test(expected = InvalidPasswordException.class)
+    public void SetTooFullWhiteSpacePassword() throws InvalidPasswordException {
+        user.setPassword("      ");
+
+    }
 }
