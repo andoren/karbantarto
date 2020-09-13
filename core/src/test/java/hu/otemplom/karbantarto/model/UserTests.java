@@ -35,6 +35,10 @@ public class UserTests {
         user.setFullName("JohnDoe");
     }
     @Test(expected = InvalidFullNameException.class)
+    public void SetNullFullName() throws InvalidFullNameException {
+        user.setFullName(null);
+    }
+    @Test(expected = InvalidFullNameException.class)
     public void SetTooShortFullName() throws InvalidFullNameException {
         user.setFullName("John");
     }
@@ -45,5 +49,27 @@ public class UserTests {
     @Test(expected = InvalidFullNameException.class)
     public void SetTooLongFullName() throws InvalidFullNameException {
         user.setFullName("123456789 123456789 123456789 123456789  123456789 1");
+    }
+    @Test
+    public void SetValidUsername() throws InvalidUsernameException {
+        user.setUsername("misike");
+        Assert.assertEquals("misike",user.getUsername());
+    }
+    @Test  (expected = InvalidUsernameException.class)
+    public void SetNullUsername() throws InvalidUsernameException {
+        user.setUsername(null);
+
+    }
+    @Test(expected = InvalidUsernameException.class)
+    public void SetTooShortUsername() throws InvalidUsernameException {
+        user.setUsername("v");
+    }
+    @Test(expected = InvalidUsernameException.class)
+    public void SetTooLongUsername() throws InvalidUsernameException {
+        user.setUsername("1234567890");
+    }
+    @Test(expected = InvalidUsernameException.class)
+    public void SetInvalidUsernameWithSpecialChar() throws InvalidUsernameException {
+        user.setUsername("*/.:%!;");
     }
 }
