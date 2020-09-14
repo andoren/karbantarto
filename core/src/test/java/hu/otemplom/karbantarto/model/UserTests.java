@@ -77,6 +77,11 @@ public class UserTests {
         user.setRole(Role.Janitor);
         Assert.assertEquals(Role.Janitor,user.getRole());
     }
+    @Test
+    public void SetValidRole2() throws InvalidRoleException {
+        user.setRole(Role.Admin);
+        Assert.assertEquals(Role.Admin,user.getRole());
+    }
     @Test(expected = InvalidRoleException.class)
     public void SetNullToRole() throws InvalidRoleException {
         user.setRole(null);
