@@ -98,4 +98,7 @@ public class Work {
         else if (doneDate.compareTo(getProceedDate())< 0) throw new InvalidDoneDateException("The done date cannot be before the proceedDate. Please check again. The given name is: "+doneDate.toString());
         else DoneDate = doneDate;
     }
+    public boolean getIsDone(){
+        return getDoneDate() != null;
+    }
 }

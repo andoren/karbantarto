@@ -200,4 +200,16 @@ public class WorkTests {
         work.setDoneDate(doneDate);
 
     }
+
+    @Test
+    public void getIsDoneFlase() throws InvalidDoneDateException, InvalidCreationDateException, InvalidProceedDateException, ParseException {
+        Date creation = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-24");
+        Date proceedDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-01-24");
+
+        work.setCreatedDate(creation);
+        work.setProceedDate(proceedDate);
+
+        Assert.assertEquals(false,work.getIsDone());
+
+    }
 }
