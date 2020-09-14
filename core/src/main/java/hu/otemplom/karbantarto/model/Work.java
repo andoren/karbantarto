@@ -1,13 +1,14 @@
 package hu.otemplom.karbantarto.model;
 
-import hu.otemplom.karbantarto.model.Exceptions.Work.InvalidDescriptionException;
-import hu.otemplom.karbantarto.model.Exceptions.Work.InvalidIdException;
-import hu.otemplom.karbantarto.model.Exceptions.Work.InvalidTitleException;
+import hu.otemplom.karbantarto.model.Exceptions.Work.*;
+
 
 public class Work {
     private int Id;
     private String Title;
     private String Description;
+    private User Worker;
+    private User Owner;
     public int getId() {
         return Id;
     }
@@ -41,5 +42,26 @@ public class Work {
         else if (description.length() < 20) throw new InvalidDescriptionException("The description is too short.(min: 20). The given description length is: "+description.length());
         else if (description.length() > 1000) throw new InvalidDescriptionException("The description is too long.(max: 1000). The given description length is: "+description.length());
         else Description = description;
+    }
+
+    public User getWorker() {
+        return Worker;
+    }
+
+    public void setWorker(User worker) throws InvalidWorkerException {
+        if(worker == null) throw new InvalidWorkerException();
+        else if (worker.getRole() == Role.Janitor)
+        Worker = worker;
+        else throw new InvalidWorkerException();
+    }
+
+    public User getOwner() {
+        return Owner;
+    }
+
+    public void setOwner(User owner) throws InvalidOwnerException {
+        if(owner == null) throw new InvalidOwnerException("Owner cannot be null. Please check again");
+        else if (owner.getRole() == Role.Janitor) throw new InvalidOwnerException("Owner cannot be a janitor.");
+        else Owner = owner;
     }
 }

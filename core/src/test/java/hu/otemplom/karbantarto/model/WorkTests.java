@@ -1,5 +1,6 @@
 package hu.otemplom.karbantarto.model;
 
+import hu.otemplom.karbantarto.model.Exceptions.User.InvalidRoleException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,6 +81,45 @@ public class WorkTests {
         String expected = "Ez egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírás";
 
         work.setDescription(expected);
+
+    }
+    @Test
+    public void setValidWorker() throws InvalidRoleException, InvalidWorkerException {
+        User worker = new User();
+        worker.setRole(Role.Janitor);
+        work.setWorker(worker);
+        Assert.assertEquals(worker,work.getWorker());
+    }
+    @Test(expected = InvalidWorkerException.class)
+    public void setNullWorker() throws InvalidWorkerException, InvalidRoleException {
+        User worker = null;
+        work.setWorker(worker);
+
+    }
+    @Test(expected = InvalidWorkerException.class)
+    public void setNotJanitorWorker() throws InvalidWorkerException, InvalidRoleException {
+        User worker = new User();
+        worker.setRole(Role.User);
+         work.setWorker(worker);
+
+    }
+    @Test
+    public void setOwner() throws InvalidOwnerException {
+        User owner = new User();
+        work.setOwner(owner);
+        Assert.assertEquals(owner,work.getOwner());
+    }
+    @Test(expected = InvalidOwnerException.class)
+    public void setNullOwner() throws InvalidOwnerException {
+        User owner = null;
+        work.setOwner(owner);
+
+    }
+    @Test(expected = InvalidOwnerException.class)
+    public void setOwnerAsJanitor() throws InvalidOwnerException, InvalidRoleException {
+        User owner = new User();
+        owner.setRole(Role.Janitor);
+        work.setOwner(owner);
 
     }
 }
