@@ -5,6 +5,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import hu.otemplom.karbantarto.model.Exceptions.Work.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class WorkTests {
     Work work;
 
@@ -128,5 +133,41 @@ public class WorkTests {
         owner.setRole(Role.User);
         work.setOwner(owner);
 
+    }
+    @Test
+    public void setValidCreationDate() throws InvalidCreationDateException {
+        Date date = new Date();
+        work.setCreatedDate(date);
+        Assert.assertEquals(date,work.getCreatedDate());
+    }
+    @Test(expected = InvalidCreationDateException.class)
+    public void setNullCreationDate() throws InvalidCreationDateException {
+        Date date = null;
+        work.setCreatedDate(date);
+
+    }
+    @Test
+    public void setValidProceedDate() throws InvalidCreationDateException, InvalidProceedDateException {
+        Date creation = new Date();
+        Date proceedDate = new Date();
+        work.setCreatedDate(creation);
+        work.setProceedDate(proceedDate);
+        Assert.assertEquals(proceedDate,work.getProceedDate());
+    }
+    @Test(expected = InvalidProceedDateException.class)
+    public void setNullProceedDate() throws InvalidCreationDateException, InvalidProceedDateException {
+        Date creation = new Date();
+        Date proceedDate = null;
+        work.setCreatedDate(creation);
+        work.setProceedDate(proceedDate);
+        Assert.assertEquals(proceedDate,work.getProceedDate());
+    }
+    @Test(expected = InvalidProceedDateException.class)
+    public void setProceedDateLessThanCreatedDate() throws InvalidCreationDateException, InvalidProceedDateException, ParseException {
+        Date creation = new Date();
+        Date proceedDate = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-24");
+        work.setCreatedDate(creation);
+        work.setProceedDate(proceedDate);
+        Assert.assertEquals(proceedDate,work.getProceedDate());
     }
 }

@@ -2,6 +2,8 @@ package hu.otemplom.karbantarto.model;
 
 import hu.otemplom.karbantarto.model.Exceptions.Work.*;
 
+import java.util.Date;
+
 
 public class Work {
     private int Id;
@@ -9,6 +11,8 @@ public class Work {
     private String Description;
     private User Worker;
     private User Owner;
+    private Date CreatedDate;
+    private Date ProceedDate;
     public int getId() {
         return Id;
     }
@@ -63,5 +67,24 @@ public class Work {
         if(owner == null) throw new InvalidOwnerException("Owner cannot be null. Please check again");
         else if (owner.getRole() == Role.Janitor) throw new InvalidOwnerException("Owner cannot be a janitor.");
         else Owner = owner;
+    }
+
+    public Date getCreatedDate() {
+        return CreatedDate;
+    }
+
+    public void setCreatedDate(Date createdDate) throws InvalidCreationDateException {
+        if(createdDate == null) throw new InvalidCreationDateException("The creation date cannot be null. Please check agin.");
+        CreatedDate = createdDate;
+    }
+
+    public Date getProceedDate() {
+        return ProceedDate;
+    }
+
+    public void setProceedDate(Date proceedDate) throws InvalidProceedDateException {
+        if(proceedDate == null) throw new InvalidProceedDateException("The proceed date cannot be null. Please check again.");
+        else if(proceedDate.compareTo(getCreatedDate())< 0 ) throw new InvalidProceedDateException("The proceed date cannot be before the creation date. Please check again.");
+        else ProceedDate = proceedDate;
     }
 }
