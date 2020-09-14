@@ -10,5 +10,5 @@ public interface UserService {
     boolean ModifyUser(User user) throws UserDoesNotExistsException;
     boolean DeleteUserByUserId(int userId) throws UserDoesNotExistsException;
     Collection<User> getAllUser();
-    User getUserByUserId(int userId)throws UserDoesNotExistsException;;
+    User getUserByUserId(int userId)throws UserDoesNotExistsException;
 }
