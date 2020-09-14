@@ -1,6 +1,6 @@
 package hu.otemplom.karbantarto.service;
 
-import hu.otemplom.karbantarto.service.Exceptions.Area.*;
+import hu.otemplom.karbantarto.service.Exceptions.AreaService.*;
 import hu.otemplom.karbantarto.model.Area;
 
 import java.util.Collection;
