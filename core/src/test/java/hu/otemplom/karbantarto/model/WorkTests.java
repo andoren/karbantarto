@@ -26,7 +26,7 @@ public class WorkTests {
     public void setIdToNegativeNumber() throws InvalidIdException {
         work.setId(-1);
     }
-
+    @Test
     public void setValidTitle() throws InvalidTitleException {
         String expected = "Ez egy valid title";
         work.setTitle(expected);
@@ -71,13 +71,13 @@ public class WorkTests {
 
     }
     @Test(expected = InvalidDescriptionException.class)
-    public void setTooShortException() throws InvalidDescriptionException{
+    public void setTooShortDescriptionException() throws InvalidDescriptionException{
         String expected = "Ez egy rövid leírás";
         work.setDescription(expected);
 
     }
     @Test(expected = InvalidDescriptionException.class)
-    public void setTooLongException() throws InvalidDescriptionException{
+    public void setTooLongDescriptionException() throws InvalidDescriptionException{
         String expected = "Ez egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírás";
 
         work.setDescription(expected);
@@ -119,6 +119,13 @@ public class WorkTests {
     public void setOwnerAsJanitor() throws InvalidOwnerException, InvalidRoleException {
         User owner = new User();
         owner.setRole(Role.Janitor);
+        work.setOwner(owner);
+
+    }
+    @Test
+    public void setOwnerAsNotJanitor() throws InvalidOwnerException, InvalidRoleException {
+        User owner = new User();
+        owner.setRole(Role.User);
         work.setOwner(owner);
 
     }
