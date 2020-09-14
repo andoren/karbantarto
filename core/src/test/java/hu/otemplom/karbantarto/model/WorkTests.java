@@ -160,7 +160,7 @@ public class WorkTests {
         Date proceedDate = null;
         work.setCreatedDate(creation);
         work.setProceedDate(proceedDate);
-        Assert.assertEquals(proceedDate,work.getProceedDate());
+
     }
     @Test(expected = InvalidProceedDateException.class)
     public void setProceedDateLessThanCreatedDate() throws InvalidCreationDateException, InvalidProceedDateException, ParseException {
@@ -168,6 +168,36 @@ public class WorkTests {
         Date proceedDate = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-24");
         work.setCreatedDate(creation);
         work.setProceedDate(proceedDate);
-        Assert.assertEquals(proceedDate,work.getProceedDate());
+
+    }
+    @Test
+    public void setValidDoneDate() throws InvalidDoneDateException,InvalidCreationDateException, InvalidProceedDateException {
+        Date creation = new Date();
+        Date proceedDate = new Date();
+        Date doneDate = new Date();
+        work.setCreatedDate(creation);
+        work.setProceedDate(proceedDate);
+        work.setDoneDate(doneDate);
+        Assert.assertEquals(doneDate,work.getDoneDate());
+    }
+    @Test(expected = InvalidDoneDateException.class)
+    public void setNullDoneDate() throws InvalidDoneDateException,InvalidCreationDateException, InvalidProceedDateException {
+        Date creation = new Date();
+        Date proceedDate = new Date();
+        Date doneDate = null;
+        work.setCreatedDate(creation);
+        work.setProceedDate(proceedDate);
+        work.setDoneDate(doneDate);
+
+    }
+    @Test(expected = InvalidDoneDateException.class)
+    public void setdoneDateLessThenProceedDateDoneDate() throws InvalidDoneDateException, InvalidCreationDateException, InvalidProceedDateException, ParseException {
+        Date creation = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-24");
+        Date proceedDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-01-27");
+        Date doneDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-01-25");
+        work.setCreatedDate(creation);
+        work.setProceedDate(proceedDate);
+        work.setDoneDate(doneDate);
+
     }
 }

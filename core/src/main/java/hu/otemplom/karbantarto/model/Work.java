@@ -13,6 +13,7 @@ public class Work {
     private User Owner;
     private Date CreatedDate;
     private Date ProceedDate;
+    private Date DoneDate;
     public int getId() {
         return Id;
     }
@@ -84,7 +85,17 @@ public class Work {
 
     public void setProceedDate(Date proceedDate) throws InvalidProceedDateException {
         if(proceedDate == null) throw new InvalidProceedDateException("The proceed date cannot be null. Please check again.");
-        else if(proceedDate.compareTo(getCreatedDate())< 0 ) throw new InvalidProceedDateException("The proceed date cannot be before the creation date. Please check again.");
+        else if(proceedDate.compareTo(getCreatedDate())< 0 ) throw new InvalidProceedDateException("The proceed date cannot be before the creation date. Please check again.. Please check again. The given name is: "+proceedDate.toString());
         else ProceedDate = proceedDate;
+    }
+
+    public Date getDoneDate() {
+        return DoneDate;
+    }
+
+    public void setDoneDate(Date doneDate) throws InvalidDoneDateException {
+        if(doneDate == null) throw new InvalidDoneDateException("The done date cannot be null. Please check again.");
+        else if (doneDate.compareTo(getProceedDate())< 0) throw new InvalidDoneDateException("The done date cannot be before the proceedDate. Please check again. The given name is: "+doneDate.toString());
+        else DoneDate = doneDate;
     }
 }
