@@ -51,4 +51,35 @@ public class WorkTests {
     public void setTooLongTitle() throws InvalidTitleException{
         work.setTitle("123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789");
     }
+    @Test
+    public void setValidDescription() throws InvalidDescriptionException{
+        String expected = "Elromlott az Demens 123-as szobábana wc lehúzójának a kiscicájának az izébizéje.";
+        work.setDescription(expected);
+        Assert.assertEquals(expected,work.getDescription());
+    }
+    @Test(expected = InvalidDescriptionException.class)
+    public void setNullDescription() throws InvalidDescriptionException{
+        String expected = null;
+        work.setDescription(expected);
+
+    }
+    @Test(expected = InvalidDescriptionException.class)
+    public void setWhitespacesDescription() throws InvalidDescriptionException{
+        String expected = "                                                        ";
+        work.setDescription(expected);
+
+    }
+    @Test(expected = InvalidDescriptionException.class)
+    public void setTooShortException() throws InvalidDescriptionException{
+        String expected = "Ez egy rövid leírás";
+        work.setDescription(expected);
+
+    }
+    @Test(expected = InvalidDescriptionException.class)
+    public void setTooLongException() throws InvalidDescriptionException{
+        String expected = "Ez egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírásEz egy rövid leírás";
+
+        work.setDescription(expected);
+
+    }
 }
