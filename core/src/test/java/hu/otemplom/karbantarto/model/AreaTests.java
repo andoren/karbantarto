@@ -12,6 +12,16 @@ public class AreaTests {
         area = new Area();
     }
     @Test
+    public void testParamConstructorArea(){
+        User tempUser = new User();
+        area  = new Area(1,"Demens",tempUser);
+        boolean expected = false;
+        expected = 1 == area.getId();
+        expected = "Demens".equals(area.getName());
+        expected = tempUser == area.getBoss();
+        Assert.assertTrue(expected);
+    }
+    @Test
     public void setValidId() throws InvalidIdException {
         int expected = 1;
         area.setId(expected);
