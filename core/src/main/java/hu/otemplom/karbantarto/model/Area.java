@@ -5,6 +5,16 @@ import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidIdException;
 import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidNameException;
 
 public class Area {
+    public Area() {
+
+    }
+
+    public Area(int id, String name, User boss) {
+        this.id = id;
+        this.name = name;
+        this.boss = boss;
+    }
+
     private int id;
     private String name;
     private User boss;

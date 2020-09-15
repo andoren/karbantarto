@@ -9,6 +9,7 @@ import org.easymock.TestSubject;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 public class AreaServiceTests {
@@ -23,7 +24,12 @@ public class AreaServiceTests {
     public void init(){
         dao = EasyMock.niceMock(AreaDao.class);
         service = new AreaServiceImpl(dao);
-
+        dummyDB = Arrays.asList(
+                new Area(),
+                new Area(),
+                new Area(),
+                new Area()
+        );
         EasyMock.replay(dao);
     }
     @Test
