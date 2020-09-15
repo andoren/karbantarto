@@ -6,8 +6,8 @@ import hu.otemplom.karbantarto.model.Area;
 import java.util.Collection;
 
 public interface AreaService {
-    int addArea(Area area) throws AreaAlreadyExistsException;
-    boolean modifyArea(Area area) throws AreaDoesNotExistsException;
+    int addArea(Area area) throws AreaAlreadyExistsException, InvalidAreaException;
+    boolean modifyArea(Area area) throws AreaDoesNotExistsException, InvalidAreaException;
     boolean deleteAreaById(int areaId) throws AreaDoesNotExistsException;
     Area getAreaById(int areaId);
     Collection<Area> getAllArea();

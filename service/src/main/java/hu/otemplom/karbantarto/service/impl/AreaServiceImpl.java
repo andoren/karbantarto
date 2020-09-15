@@ -5,6 +5,7 @@ import hu.otemplom.karbantarto.model.Area;
 import hu.otemplom.karbantarto.service.AreaService;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaAlreadyExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaDoesNotExistsException;
+import hu.otemplom.karbantarto.service.Exceptions.AreaService.InvalidAreaException;
 
 import java.util.Collection;
 
@@ -15,8 +16,8 @@ public class AreaServiceImpl implements AreaService {
         this.dao = dao;
     }
 
-    public int addArea(Area area) throws AreaAlreadyExistsException {
-        return 0;
+    public int addArea(Area area) throws AreaAlreadyExistsException, InvalidAreaException {
+        return dao.addArea(area);
     }
 
     public boolean modifyArea(Area area) throws AreaDoesNotExistsException {
