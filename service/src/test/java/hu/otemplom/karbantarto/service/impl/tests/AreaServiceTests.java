@@ -7,6 +7,7 @@ import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidIdException;
 import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidNameException;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaAlreadyExistsException;
+import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaDoesNotExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.InvalidAreaException;
 import hu.otemplom.karbantarto.service.impl.AreaServiceImpl;
 import org.easymock.EasyMock;
@@ -24,6 +25,7 @@ import static org.easymock.EasyMock.same;
 public class AreaServiceTests {
     @Mock
     public AreaDao dao;
+
     @TestSubject
     private AreaServiceImpl service;
     Collection<Area> dummyDB;
@@ -31,7 +33,7 @@ public class AreaServiceTests {
     Area errorArea;
     Area nullArea;
     @Before
-    public void init() throws AreaAlreadyExistsException, InvalidAreaException {
+    public void init() throws AreaAlreadyExistsException, InvalidAreaException, AreaDoesNotExistsException {
         goodArea = new Area();
         errorArea = new Area();
         dao = EasyMock.niceMock(AreaDao.class);
@@ -45,6 +47,9 @@ public class AreaServiceTests {
         EasyMock.expect(dao.addArea(same(goodArea))).andReturn(5).anyTimes();
         EasyMock.expect(dao.addArea(same(errorArea))).andThrow(new AreaAlreadyExistsException("")).anyTimes();
         EasyMock.expect(dao.addArea(same(nullArea))).andThrow(new InvalidAreaException("")).anyTimes();
+        EasyMock.expect(dao.modifyArea(same(goodArea))).andReturn(true).anyTimes();
+        EasyMock.expect(dao.modifyArea(same(errorArea))).andThrow(new AreaDoesNotExistsException("")).anyTimes();
+        EasyMock.expect(dao.modifyArea(same(nullArea))).andThrow(new InvalidAreaException("")).anyTimes();
         EasyMock.replay(dao);
     }
     @Test
@@ -65,5 +70,21 @@ public class AreaServiceTests {
     @Test(expected = InvalidAreaException.class)
     public void addNullAreaTest() throws AreaAlreadyExistsException, InvalidAreaException {
         service.addArea(nullArea);
+    }
+    @Test
+    public void modifyAreaTest() throws AreaDoesNotExistsException, InvalidAreaException {
+        boolean expected = true;
+        boolean actual = service.modifyArea(goodArea);
+        Assert.assertEquals(expected,actual);
+    }
+    @Test(expected = AreaDoesNotExistsException.class)
+    public void modifyAreaWhichNotExistsTest() throws AreaDoesNotExistsException, InvalidAreaException {
+
+        service.modifyArea(errorArea);
+
+    }
+    @Test(expected = InvalidAreaException.class)
+    public void modifyAreaDoesNotExists() throws InvalidAreaException, AreaDoesNotExistsException {
+        service.modifyArea(nullArea);
     }
 }

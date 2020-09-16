@@ -20,8 +20,8 @@ public class AreaServiceImpl implements AreaService {
         return dao.addArea(area);
     }
 
-    public boolean modifyArea(Area area) throws AreaDoesNotExistsException {
-        return false;
+    public boolean modifyArea(Area area) throws AreaDoesNotExistsException, InvalidAreaException {
+        return dao.modifyArea(area);
     }
 
     public boolean deleteAreaById(int areaId) throws AreaDoesNotExistsException {
