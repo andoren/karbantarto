@@ -1,4 +1,4 @@
-package hu.otemplom.karbantarto.service.impl.tests;
+package hu.otemplom.karbantarto.service.impl;
 
 import hu.otemplom.karbantarto.dao.AreaDao;
 import hu.otemplom.karbantarto.model.Area;
