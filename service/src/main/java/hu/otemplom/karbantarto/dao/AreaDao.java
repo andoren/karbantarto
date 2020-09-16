@@ -9,7 +9,7 @@ public interface AreaDao {
     int addArea(Area area) throws AreaAlreadyExistsException,InvalidAreaException;
     boolean modifyArea(Area area) throws AreaDoesNotExistsException,InvalidAreaException;
     boolean deleteAreaById(int areaId) throws AreaDoesNotExistsException;
-    Area getAreaById(int areaId);
+    Area getAreaById(int areaId) throws AreaDoesNotExistsException;
     Collection<Area> getAllArea();
     Collection<Area> getAreasByUserId(int userId);
 }

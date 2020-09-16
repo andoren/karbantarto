@@ -52,6 +52,10 @@ public class AreaServiceTests {
         EasyMock.expect(dao.modifyArea(same(nullArea))).andThrow(new InvalidAreaException("")).anyTimes();
         EasyMock.expect(dao.deleteAreaById(1)).andReturn(true).anyTimes();
         EasyMock.expect(dao.deleteAreaById(-1)).andThrow(new AreaDoesNotExistsException("")).anyTimes();
+        EasyMock.expect(dao.getAreaById(1)).andReturn(goodArea).anyTimes();
+        EasyMock.expect(dao.getAreaById(-1)).andThrow(new AreaDoesNotExistsException("")).anyTimes();
+        EasyMock.expect(dao.getAllArea()).andReturn(dummyDB).anyTimes();
+        EasyMock.expect(dao.getAreasByUserId(1)).andReturn(Arrays.asList(new Area(1,"Demens",new User()))).anyTimes();
         EasyMock.replay(dao);
     }
     @Test
@@ -100,5 +104,26 @@ public class AreaServiceTests {
 
        service.deleteAreaById(-1);
 
+    }
+    @Test
+    public void getAreaById() throws AreaDoesNotExistsException {
+        Area actual = service.getAreaById(1);
+        Assert.assertEquals(goodArea,actual);
+    }
+    @Test(expected = AreaDoesNotExistsException.class)
+    public void getInvalidAreaById()throws AreaDoesNotExistsException{
+        service.getAreaById(-1);
+    }
+    @Test
+    public void getAllAreaTest(){
+        int expectedLength = 4;
+        Collection<Area>  actual = service.getAllArea();
+        Assert.assertEquals(expectedLength,actual.size());
+    }
+    @Test
+    public void getAreasById(){
+        int expectedLength = 1;
+        Collection<Area>  actual = service.getAreasByUserId(1);
+        Assert.assertEquals(expectedLength,actual.size());
     }
 }

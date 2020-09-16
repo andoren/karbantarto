@@ -28,15 +28,20 @@ public class AreaServiceImpl implements AreaService {
         return dao.deleteAreaById(areaId);
     }
 
-    public Area getAreaById(int areaId) {
-        return null;
+    public Area getAreaById(int areaId) throws AreaDoesNotExistsException {
+
+        return dao.getAreaById(areaId);
     }
 
     public Collection<Area> getAllArea() {
-        return null;
+
+        return dao.getAllArea();
+
     }
 
     public Collection<Area> getAreasByUserId(int userId) {
-        return null;
+
+        return dao.getAreasByUserId(userId);
+
     }
 }
