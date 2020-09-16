@@ -50,6 +50,8 @@ public class AreaServiceTests {
         EasyMock.expect(dao.modifyArea(same(goodArea))).andReturn(true).anyTimes();
         EasyMock.expect(dao.modifyArea(same(errorArea))).andThrow(new AreaDoesNotExistsException("")).anyTimes();
         EasyMock.expect(dao.modifyArea(same(nullArea))).andThrow(new InvalidAreaException("")).anyTimes();
+        EasyMock.expect(dao.deleteAreaById(1)).andReturn(true).anyTimes();
+        EasyMock.expect(dao.deleteAreaById(-1)).andThrow(new AreaDoesNotExistsException("")).anyTimes();
         EasyMock.replay(dao);
     }
     @Test
@@ -86,5 +88,17 @@ public class AreaServiceTests {
     @Test(expected = InvalidAreaException.class)
     public void modifyAreaDoesNotExists() throws InvalidAreaException, AreaDoesNotExistsException {
         service.modifyArea(nullArea);
+    }
+    @Test
+    public void deleteAreaTesT() throws AreaDoesNotExistsException {
+        boolean expected = true;
+        boolean actual = service.deleteAreaById(1);
+        Assert.assertEquals(expected,actual);
+    }
+    @Test(expected = AreaDoesNotExistsException.class)
+    public void deleteInvalidAreaTesT() throws AreaDoesNotExistsException {
+
+       service.deleteAreaById(-1);
+
     }
 }

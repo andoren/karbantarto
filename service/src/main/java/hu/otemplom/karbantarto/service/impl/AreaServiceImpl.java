@@ -25,7 +25,7 @@ public class AreaServiceImpl implements AreaService {
     }
 
     public boolean deleteAreaById(int areaId) throws AreaDoesNotExistsException {
-        return false;
+        return dao.deleteAreaById(areaId);
     }
 
     public Area getAreaById(int areaId) {
