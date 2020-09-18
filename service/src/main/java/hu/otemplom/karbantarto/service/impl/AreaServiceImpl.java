@@ -1,5 +1,6 @@
 package hu.otemplom.karbantarto.service.impl;
 
+
 import hu.otemplom.karbantarto.dao.AreaDao;
 import hu.otemplom.karbantarto.model.Area;
 import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidIdException;
@@ -9,10 +10,12 @@ import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaDoesNotExistsE
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.InvalidAreaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 @Service
+@ComponentScan(basePackages = {"hu.otemplom.karbantarto.dao"})
 public class AreaServiceImpl implements AreaService {
     AreaDao dao;
     @Autowired
