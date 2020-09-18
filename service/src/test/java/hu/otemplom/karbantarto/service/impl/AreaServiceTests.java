@@ -33,7 +33,7 @@ public class AreaServiceTests {
     Area errorArea;
     Area nullArea;
     @Before
-    public void init() throws AreaAlreadyExistsException, InvalidAreaException, AreaDoesNotExistsException {
+    public void init() throws AreaAlreadyExistsException, InvalidAreaException, AreaDoesNotExistsException, InvalidIdException {
         goodArea = new Area();
         errorArea = new Area();
         dao = EasyMock.niceMock(AreaDao.class);
@@ -126,4 +126,5 @@ public class AreaServiceTests {
         Collection<Area>  actual = service.getAreasByUserId(1);
         Assert.assertEquals(expectedLength,actual.size());
     }
+
 }
