@@ -2,21 +2,26 @@ package hu.otemplom.karbantarto.service.impl;
 
 import hu.otemplom.karbantarto.dao.AreaDao;
 import hu.otemplom.karbantarto.model.Area;
+import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidIdException;
 import hu.otemplom.karbantarto.service.AreaService;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaAlreadyExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaDoesNotExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.InvalidAreaException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-
+@Service
 public class AreaServiceImpl implements AreaService {
     AreaDao dao;
+    @Autowired
+    public AreaServiceImpl(@Qualifier("fakeDao") AreaDao dao) {
 
-    public AreaServiceImpl(AreaDao dao) {
         this.dao = dao;
     }
 
-    public int addArea(Area area) throws AreaAlreadyExistsException, InvalidAreaException {
+    public int addArea(Area area) throws AreaAlreadyExistsException, InvalidAreaException, InvalidIdException {
         return dao.addArea(area);
     }
 

@@ -59,7 +59,7 @@ public class AreaServiceTests {
         EasyMock.replay(dao);
     }
     @Test
-    public void addValidAreaTest() throws InvalidNameException, InvalidBossException, AreaAlreadyExistsException, InvalidAreaException {
+    public void addValidAreaTest() throws InvalidNameException, InvalidBossException, AreaAlreadyExistsException, InvalidAreaException, InvalidIdException {
         goodArea.setName("Iroda");
         goodArea.setBoss(new User());
         int expected = 5;
@@ -74,7 +74,7 @@ public class AreaServiceTests {
         service.addArea(errorArea);
     }
     @Test(expected = InvalidAreaException.class)
-    public void addNullAreaTest() throws AreaAlreadyExistsException, InvalidAreaException {
+    public void addNullAreaTest() throws AreaAlreadyExistsException, InvalidAreaException, InvalidIdException {
         service.addArea(nullArea);
     }
     @Test

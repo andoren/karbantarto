@@ -5,12 +5,13 @@ import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidIdException;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaAlreadyExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaDoesNotExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.AreaService.InvalidAreaException;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
+@Repository("fakeDao")
 public class fakeAreaDataAccessDao implements AreaDao{
     private static List<Area> dummyDB = new ArrayList<>();
     public int addArea(Area area) throws AreaAlreadyExistsException, InvalidIdException {
