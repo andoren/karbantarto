@@ -33,4 +33,8 @@ public class UserController {
     public void deleteUserByUserId(@PathVariable("id") int id) throws UserDoesNotExistsException {
         service.DeleteUserByUserId(id);
     }
+    @GetMapping(path="{id}")
+    public User getUserByUserId(@PathVariable("id")int id) throws UserDoesNotExistsException {
+        return service.getUserByUserId(id);
+    }
 }
