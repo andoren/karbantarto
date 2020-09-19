@@ -52,6 +52,8 @@ public class UserServiceTests {
         EasyMock.expect(dao.deleteUserByUserId(1)).andReturn(true).anyTimes();
         EasyMock.expect(dao.deleteUserByUserId(999)).andThrow(new UserDoesNotExistsException("")).anyTimes();
         EasyMock.expect(dao.getAllUser()).andReturn(dummyDB).anyTimes();
+        EasyMock.expect(dao.getUserByUserId(1)).andReturn(goodUser).anyTimes();
+        EasyMock.expect(dao.getUserByUserId(999)).andThrow(new UserDoesNotExistsException("")).anyTimes();
         EasyMock.replay(dao);
     }
     @Test
@@ -79,5 +81,14 @@ public class UserServiceTests {
     @Test(expected = UserDoesNotExistsException.class)
     public void deleteInvalidUserTest() throws UserDoesNotExistsException {
         service.DeleteUserByUserId(999);
+    }
+    @Test
+    public void getUserByUserIdTest() throws UserDoesNotExistsException {
+        User testUser = service.getUserByUserId(1);
+        Assert.assertEquals(testUser,goodUser);
+    }
+    @Test(expected = UserDoesNotExistsException.class)
+    public void getUserByUserIdTestInvalidId() throws UserDoesNotExistsException {
+        User pleaseThorwException = service.getUserByUserId(999);
     }
 }
