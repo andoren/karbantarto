@@ -1,26 +1,21 @@
-package hu.otemplom.karbantarto.service.impl;
+package hu.otemplom.karbantarto.dao;
 
-import hu.otemplom.karbantarto.dao.UserDao;
+import hu.otemplom.karbantarto.model.Area;
+import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidIdException;
 import hu.otemplom.karbantarto.model.User;
+import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaAlreadyExistsException;
+import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaDoesNotExistsException;
+import hu.otemplom.karbantarto.service.Exceptions.AreaService.InvalidAreaException;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
-import hu.otemplom.karbantarto.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-@Service
-@ComponentScan(basePackages = {"hu.otemplom.karbantarto.dao"})
-public class UserServiceImpl implements UserService {
-    @Autowired
-    public UserServiceImpl(@Qualifier("fakeUserDao") UserDao dao) {
-        this.dao = dao;
-    }
-
-    private UserDao dao;
+@Repository("fakeUserDao")
+public class fakeUserDataAccessDao implements UserDao {
+    private static Collection <Area> dummyDB = new ArrayList<>();
     @Override
     public int AddUser(User user) throws DuplicateUserException {
         return 0;
