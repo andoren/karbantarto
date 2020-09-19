@@ -60,7 +60,7 @@ public class User {
         Matcher m = p.matcher(username);
         boolean b = m.find();
         if(username.length() < 4) throw new InvalidUsernameException("The given username is too short(min:4): "+username);
-        else if (username.length() > 9) throw new InvalidUsernameException("The given username is too long(max:9): "+username);
+        else if (username.length() > 15) throw new InvalidUsernameException("The given username is too long(max:15): "+username);
         else if (b) throw new InvalidUsernameException("The username cannot contain special chars: "+username);
 
         else Username = username;

@@ -16,27 +16,28 @@ import java.util.Collection;
 @Repository("fakeUserDao")
 public class fakeUserDataAccessDao implements UserDao {
     private static Collection <Area> dummyDB = new ArrayList<>();
-    @Override
-    public int AddUser(User user) throws DuplicateUserException {
+
+
+
+    public int addUser(User user) throws DuplicateUserException {
         return 0;
     }
 
-    @Override
-    public boolean ModifyUser(User user) throws UserDoesNotExistsException {
+
+    public boolean modifyUser(User user) throws UserDoesNotExistsException {
         return false;
     }
 
-    @Override
-    public boolean DeleteUserByUserId(int userId) throws UserDoesNotExistsException {
+
+    public boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException {
         return false;
     }
 
-    @Override
     public Collection<User> getAllUser() {
         return null;
     }
 
-    @Override
+
     public User getUserByUserId(int userId) throws UserDoesNotExistsException {
         return null;
     }

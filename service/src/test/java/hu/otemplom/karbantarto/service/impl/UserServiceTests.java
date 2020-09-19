@@ -7,13 +7,18 @@ import hu.otemplom.karbantarto.model.Exceptions.User.InvalidRoleException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidUsernameException;
 import hu.otemplom.karbantarto.model.Role;
 import hu.otemplom.karbantarto.model.User;
+import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
 import org.easymock.EasyMock;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collection;
+
+import static org.easymock.EasyMock.same;
 
 public class UserServiceTests {
 
@@ -23,14 +28,14 @@ public class UserServiceTests {
     @TestSubject
     private UserServiceImpl service;
     Collection<User> dummyDB;
-    User goodArea ;
-    User errorArea;
-    User nullArea;
+    User goodUser ;
+    User errorUser;
+    User nullUser;
     @Before
-    public void init() throws InvalidUsernameException, InvalidIdException, InvalidFullNameException, InvalidRoleException {
-        goodArea = new User();
-        errorArea = new User();
-        dao = EasyMock.niceMock(User.class);
+    public void init() throws InvalidUsernameException, InvalidIdException, InvalidFullNameException, InvalidRoleException, DuplicateUserException {
+        goodUser = new User();
+        errorUser = new User();
+        dao = EasyMock.niceMock(UserDao.class);
         service = new UserServiceImpl(dao);
         dummyDB = Arrays.asList(
                 new User(1,"Pekár Mihály","misike", Role.Admin),
@@ -40,6 +45,13 @@ public class UserServiceTests {
                 new User(5,"Stuller Istvánné","stullerine", Role.User)
 
         );
-
+        EasyMock.expect(dao.addUser(same(goodUser))).andReturn(5).anyTimes();
+        EasyMock.replay(dao);
+    }
+    @Test
+    public void addValidUserTest() throws DuplicateUserException {
+        int expected = 5;
+        int actual = service.AddUser(goodUser);
+        Assert.assertEquals(expected,actual);
     }
 }

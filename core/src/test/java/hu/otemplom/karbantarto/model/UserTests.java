@@ -66,7 +66,7 @@ public class UserTests {
     }
     @Test(expected = InvalidUsernameException.class)
     public void SetTooLongUsername() throws InvalidUsernameException {
-        user.setUsername("1234567890");
+        user.setUsername("Misike05Misike05Misike05Misike05Misike05Misike05");
     }
     @Test(expected = InvalidUsernameException.class)
     public void SetInvalidUsernameWithSpecialChar() throws InvalidUsernameException {
@@ -103,7 +103,7 @@ public class UserTests {
     }
     @Test(expected = InvalidPasswordException.class)
     public void SetTooLongPassword() throws InvalidPasswordException {
-        user.setPassword("Misike05Misike05Misike05");
+        user.setPassword("Misike05Misike05Misike05Misike05Misike05Misike05");
 
     }
     @Test(expected = InvalidPasswordException.class)
