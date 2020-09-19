@@ -51,7 +51,14 @@ public class UserServiceTests {
         EasyMock.expect(dao.addUser(same(errorUser))).andThrow(new DuplicateUserException()).anyTimes();
         EasyMock.expect(dao.deleteUserByUserId(1)).andReturn(true).anyTimes();
         EasyMock.expect(dao.deleteUserByUserId(999)).andThrow(new UserDoesNotExistsException("")).anyTimes();
+        EasyMock.expect(dao.getAllUser()).andReturn(dummyDB).anyTimes();
         EasyMock.replay(dao);
+    }
+    @Test
+    public void getAllUserTest(){
+        int expected = dummyDB.size();
+        Collection<User> actual = service.getAllUser();
+        Assert.assertEquals(expected,actual.size());
     }
     @Test
     public void addValidUserTest() throws DuplicateUserException {
