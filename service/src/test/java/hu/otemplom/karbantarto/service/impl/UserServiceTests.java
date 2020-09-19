@@ -65,13 +65,13 @@ public class UserServiceTests {
         Assert.assertEquals(expected,actual.size());
     }
     @Test
-    public void addValidUserTest() throws DuplicateUserException {
+    public void addValidUserTest() throws DuplicateUserException, InvalidIdException {
         int expected = 5;
         int actual = service.AddUser(goodUser);
         Assert.assertEquals(expected,actual);
     }
     @Test(expected = DuplicateUserException.class)
-    public void addDuplicateUserTest() throws DuplicateUserException {
+    public void addDuplicateUserTest() throws DuplicateUserException, InvalidIdException {
         service.AddUser(errorUser);
     }
     @Test

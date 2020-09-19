@@ -1,6 +1,7 @@
 package hu.otemplom.karbantarto.service.impl;
 
 import hu.otemplom.karbantarto.dao.UserDao;
+import hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private UserDao dao;
 
     @Override
-    public int AddUser(User user) throws DuplicateUserException {
+    public int AddUser(User user) throws DuplicateUserException, InvalidIdException {
         return dao.addUser(user);
     }
 
