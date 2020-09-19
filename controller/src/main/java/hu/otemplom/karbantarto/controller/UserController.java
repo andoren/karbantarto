@@ -3,6 +3,7 @@ package hu.otemplom.karbantarto.controller;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
+import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 import hu.otemplom.karbantarto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,5 +24,9 @@ public class UserController {
     @PostMapping
     public void addUser(@RequestBody User user) throws InvalidIdException, DuplicateUserException {
         service.AddUser(user);
+    }
+    @PutMapping
+    public void modifyUser(@RequestBody User user) throws UserDoesNotExistsException {
+        service.ModifyUser(user);
     }
 }
