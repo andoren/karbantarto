@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository("fakeDao")
 public class fakeAreaDataAccessDao implements AreaDao{
@@ -50,6 +51,7 @@ public class fakeAreaDataAccessDao implements AreaDao{
     }
 
     public Collection<Area> getAreasByUserId(int userId) {
-        return dummyDB;
+
+        return dummyDB.stream().filter(p -> p.getBoss().getId() == userId).collect(Collectors.toList());
     }
 }

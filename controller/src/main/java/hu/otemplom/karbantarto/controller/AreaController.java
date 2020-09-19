@@ -44,5 +44,8 @@ public class AreaController {
     public Area getAreaById(@PathVariable("id")int id) throws AreaDoesNotExistsException {
         return areaService.getAreaById(id);
     }
-
+    @GetMapping(path="userId={userid}")
+    public Collection<Area> getAreasByUserId(@PathVariable("userid")int id){
+        return areaService.getAreasByUserId(id);
+    }
 }
