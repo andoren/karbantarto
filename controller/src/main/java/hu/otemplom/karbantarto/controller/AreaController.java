@@ -2,12 +2,13 @@ package hu.otemplom.karbantarto.controller;
 
 
 import hu.otemplom.karbantarto.model.Area;
+import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidIdException;
 import hu.otemplom.karbantarto.service.AreaService;
+import hu.otemplom.karbantarto.service.Exceptions.AreaService.AreaAlreadyExistsException;
+import hu.otemplom.karbantarto.service.Exceptions.AreaService.InvalidAreaException;
 import hu.otemplom.karbantarto.service.impl.AreaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,5 +24,9 @@ public class AreaController {
     @GetMapping
     public Collection<Area> getAllArea(){
         return areaService.getAllArea();
+    }
+    @PostMapping
+    public void addArea(@RequestBody Area area) throws InvalidIdException, InvalidAreaException, AreaAlreadyExistsException {
+        areaService.addArea(area);
     }
 }
