@@ -18,6 +18,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static org.easymock.EasyMock.getEasyMockProperty;
 import static org.easymock.EasyMock.same;
 
 public class UserServiceTests {
@@ -46,6 +47,7 @@ public class UserServiceTests {
 
         );
         EasyMock.expect(dao.addUser(same(goodUser))).andReturn(5).anyTimes();
+        EasyMock.expect(dao.addUser(same(errorUser))).andThrow(new DuplicateUserException()).anyTimes();
         EasyMock.replay(dao);
     }
     @Test
@@ -53,5 +55,9 @@ public class UserServiceTests {
         int expected = 5;
         int actual = service.AddUser(goodUser);
         Assert.assertEquals(expected,actual);
+    }
+    @Test(expected = DuplicateUserException.class)
+    public void addDuplicateUser() throws DuplicateUserException {
+        service.AddUser(errorUser);
     }
 }
