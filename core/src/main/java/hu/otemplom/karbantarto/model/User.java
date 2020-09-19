@@ -7,11 +7,28 @@ import java.util.regex.Pattern;
 
 
 public class User {
+
+
+    public User(){
+
+    }
+    public User(int id, String fullname, String username, Role role) throws InvalidRoleException, InvalidUsernameException, InvalidFullNameException, InvalidIdException {
+        setId(id);
+        setFullName(fullname);
+        setUsername(username);
+        setRole(role);
+    }
+    public User(int id, String fullName, String username, Role role, String password) throws InvalidUsernameException, InvalidIdException, InvalidFullNameException, InvalidRoleException, InvalidPasswordException {
+        this(id,fullName,username,role);
+        setPassword(password);
+    }
+
     private int Id;
     private String FullName;
     private String Username;
     private Role Role;
     private String Password;
+
     public int getId() {
         return Id;
     }
