@@ -8,6 +8,7 @@ import hu.otemplom.karbantarto.model.Exceptions.User.InvalidUsernameException;
 import hu.otemplom.karbantarto.model.Role;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
+import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 import org.easymock.EasyMock;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
@@ -33,7 +34,7 @@ public class UserServiceTests {
     User errorUser;
     User nullUser;
     @Before
-    public void init() throws InvalidUsernameException, InvalidIdException, InvalidFullNameException, InvalidRoleException, DuplicateUserException {
+    public void init() throws InvalidUsernameException, InvalidIdException, InvalidFullNameException, InvalidRoleException, DuplicateUserException, UserDoesNotExistsException {
         goodUser = new User();
         errorUser = new User();
         dao = EasyMock.niceMock(UserDao.class);
@@ -48,6 +49,8 @@ public class UserServiceTests {
         );
         EasyMock.expect(dao.addUser(same(goodUser))).andReturn(5).anyTimes();
         EasyMock.expect(dao.addUser(same(errorUser))).andThrow(new DuplicateUserException()).anyTimes();
+        EasyMock.expect(dao.deleteUserByUserId(1)).andReturn(true).anyTimes();
+        EasyMock.expect(dao.deleteUserByUserId(999)).andThrow(new UserDoesNotExistsException("")).anyTimes();
         EasyMock.replay(dao);
     }
     @Test
@@ -57,7 +60,17 @@ public class UserServiceTests {
         Assert.assertEquals(expected,actual);
     }
     @Test(expected = DuplicateUserException.class)
-    public void addDuplicateUser() throws DuplicateUserException {
+    public void addDuplicateUserTest() throws DuplicateUserException {
         service.AddUser(errorUser);
+    }
+    @Test
+    public void deleteUserTest() throws UserDoesNotExistsException {
+        boolean expected = true;
+        boolean actual = service.DeleteUserByUserId(1);
+        Assert.assertEquals(expected,actual);
+    }
+    @Test(expected = UserDoesNotExistsException.class)
+    public void deleteInvalidUserTest() throws UserDoesNotExistsException {
+        service.DeleteUserByUserId(999);
     }
 }
