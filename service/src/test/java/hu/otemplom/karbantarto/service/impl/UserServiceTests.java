@@ -54,6 +54,8 @@ public class UserServiceTests {
         EasyMock.expect(dao.getAllUser()).andReturn(dummyDB).anyTimes();
         EasyMock.expect(dao.getUserByUserId(1)).andReturn(goodUser).anyTimes();
         EasyMock.expect(dao.getUserByUserId(999)).andThrow(new UserDoesNotExistsException("")).anyTimes();
+        EasyMock.expect(dao.modifyUser(goodUser)).andReturn(true).anyTimes();
+        EasyMock.expect(dao.modifyUser(errorUser)).andThrow(new UserDoesNotExistsException("")).anyTimes();
         EasyMock.replay(dao);
     }
     @Test
@@ -90,5 +92,15 @@ public class UserServiceTests {
     @Test(expected = UserDoesNotExistsException.class)
     public void getUserByUserIdTestInvalidId() throws UserDoesNotExistsException {
         User pleaseThorwException = service.getUserByUserId(999);
+    }
+    @Test
+    public void modifyUserTest() throws UserDoesNotExistsException {
+        boolean expected = true;
+        boolean actual = service.ModifyUser(goodUser);
+        Assert.assertEquals(expected,actual);
+    }
+    @Test(expected = UserDoesNotExistsException.class)
+    public void modifyUserInvalidUserTest() throws UserDoesNotExistsException {
+        service.ModifyUser(errorUser);
     }
 }
