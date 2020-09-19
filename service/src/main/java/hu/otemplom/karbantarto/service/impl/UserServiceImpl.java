@@ -15,34 +15,37 @@ import java.util.Collection;
 @Service
 @ComponentScan(basePackages = {"hu.otemplom.karbantarto.dao"})
 public class UserServiceImpl implements UserService {
+
+
     @Autowired
     public UserServiceImpl(@Qualifier("fakeUserDao") UserDao dao) {
         this.dao = dao;
     }
 
     private UserDao dao;
+
     @Override
     public int AddUser(User user) throws DuplicateUserException {
-        return 0;
+        return dao.addUser(user);
     }
 
     @Override
     public boolean ModifyUser(User user) throws UserDoesNotExistsException {
-        return false;
+        return dao.modifyUser(user);
     }
 
     @Override
     public boolean DeleteUserByUserId(int userId) throws UserDoesNotExistsException {
-        return false;
+        return dao.deleteUserByUserId(userId);
     }
 
     @Override
     public Collection<User> getAllUser() {
-        return null;
+        return dao.getAllUser();
     }
 
     @Override
     public User getUserByUserId(int userId) throws UserDoesNotExistsException {
-        return null;
+        return dao.getUserByUserId(userId);
     }
 }
