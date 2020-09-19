@@ -29,4 +29,8 @@ public class UserController {
     public void modifyUser(@RequestBody User user) throws UserDoesNotExistsException {
         service.ModifyUser(user);
     }
+    @DeleteMapping(path="{id}")
+    public void deleteUserByUserId(@PathVariable("id") int id) throws UserDoesNotExistsException {
+        service.DeleteUserByUserId(id);
+    }
 }

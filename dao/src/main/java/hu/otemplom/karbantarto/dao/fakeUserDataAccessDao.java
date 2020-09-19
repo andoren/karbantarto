@@ -38,7 +38,7 @@ public class fakeUserDataAccessDao implements UserDao {
     public boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException {
         User user = getUserByUserId(userId);
         if (user != null){
-            dummyDB.remove(userId);
+            dummyDB.remove(user);
             return true;
         }return false;
     }
