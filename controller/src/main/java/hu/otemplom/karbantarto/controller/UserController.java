@@ -1,11 +1,11 @@
 package hu.otemplom.karbantarto.controller;
 
+import hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException;
 import hu.otemplom.karbantarto.model.User;
+import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
 import hu.otemplom.karbantarto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 @RequestMapping("api/v1/user")
@@ -19,5 +19,9 @@ public class UserController {
     @GetMapping
     public Collection<User> getAllUser(){
         return service.getAllUser();
+    }
+    @PostMapping
+    public void addUser(@RequestBody User user) throws InvalidIdException, DuplicateUserException {
+        service.AddUser(user);
     }
 }
