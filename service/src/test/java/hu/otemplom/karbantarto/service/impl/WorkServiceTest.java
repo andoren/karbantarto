@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import static org.easymock.EasyMock.same;
 
@@ -37,15 +38,17 @@ public class WorkServiceTest {
     Work nullWork;
 
     @Before
-    public void init() throws ParseException, InvalidOwnerException, InvalidIdException, InvalidTitleException, InvalidProceedDateException, InvalidCreationDateException, InvalidDoneDateException, InvalidDescriptionException, InvalidWorkerException, InvalidRoleException, WorkDoesNotExistsException {
+    public void init() throws ParseException, InvalidOwnerException, InvalidIdException, InvalidTitleException, InvalidProceedDateException, InvalidCreationDateException, InvalidDoneDateException, InvalidDescriptionException, InvalidWorkerException, InvalidRoleException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException {
         goodWork = new Work();
         errorwork = new Work();
         janitor = new User();
         janitor.setRole(Role.Janitor);
-
+        janitor.setId(4);
         userTwo = new User();
+        userTwo.setId(2);
         userTwo.setRole(Role.User);
         userThree = new User();
+        userThree.setId(3);
         userThree.setRole(Role.Admin);
         dao = EasyMock.niceMock(WorkDao.class);
         service = new WorkServiceImpl(dao);
@@ -68,6 +71,10 @@ public class WorkServiceTest {
         EasyMock.expect(dao.modifyWork(errorwork)).andThrow(new WorkDoesNotExistsException(""));
         EasyMock.expect(dao.getWorkById(1)).andReturn(goodWork).anyTimes();
         EasyMock.expect(dao.getWorkById(999)).andThrow(new WorkDoesNotExistsException(""));
+        EasyMock.expect(dao.getNeedToCheckWorks()).andReturn(dummyDB.stream().filter(p->p.getProceedDate() != null && !p.getIsDone()).collect(Collectors.toList())).anyTimes();
+        EasyMock.expect(dao.getThisMonthDoneWorks()).andReturn(dummyDB.stream().filter(p->p.getIsDone()).collect(Collectors.toList())).anyTimes();
+        EasyMock.expect(dao.getNewWorks()).andReturn(dummyDB.stream().filter(w-> !w.getIsDone() && w.getWorker() == null).collect(Collectors.toList())).anyTimes();
+        EasyMock.expect(dao.getStartedWorks()).andReturn(dummyDB.stream().filter(w->!w.getIsDone()&& w.getWorker() != null && w.getProceedDate() == null).collect(Collectors.toList())).anyTimes();
         EasyMock.replay(dao);
 
     }
@@ -105,6 +112,30 @@ public class WorkServiceTest {
     @Test(expected = WorkDoesNotExistsException.class)
     public void invalidGetWorkByIdTest() throws WorkDoesNotExistsException {
         service.getWorkById(999);
+    }
+    @Test
+    public void getCheckNeededWorksTest(){
+        int expected = 2;
+        int actual = service.getNeedToCheckWorks().size();
+        Assert.assertEquals(expected,actual);
+    }
+    @Test
+    public void getThisMonthDoneWorksTest(){
+        int expected = 3;
+        int actual = service.getThisMonthDoneWorks().size();
+        Assert.assertEquals(expected,actual);
+    }
+    @Test
+    public void getNewWorksTest(){
+        int expected = 4;
+        int actual = service.getNewWorks().size();
+        Assert.assertEquals(expected,actual);
+    }
+    @Test
+    public void getStartedWorksTest(){
+        int expected = 1;
+        int actual = service.getStartedWorks().size();
+        Assert.assertEquals(expected,actual);
     }
 }
 
