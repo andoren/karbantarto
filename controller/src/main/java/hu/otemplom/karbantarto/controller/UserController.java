@@ -23,15 +23,15 @@ public class UserController {
     }
     @PostMapping
     public void addUser(@RequestBody User user) throws InvalidIdException, DuplicateUserException {
-        service.AddUser(user);
+        service.addUser(user);
     }
     @PutMapping
     public void modifyUser(@RequestBody User user) throws UserDoesNotExistsException {
-        service.ModifyUser(user);
+        service.modifyUser(user);
     }
     @DeleteMapping(path="{id}")
     public void deleteUserByUserId(@PathVariable("id") int id) throws UserDoesNotExistsException {
-        service.DeleteUserByUserId(id);
+        service.deleteUserByUserId(id);
     }
     @GetMapping(path="{id}")
     public User getUserByUserId(@PathVariable("id")int id) throws UserDoesNotExistsException {

@@ -26,17 +26,17 @@ public class UserServiceImpl implements UserService {
     private UserDao dao;
 
     @Override
-    public int AddUser(User user) throws DuplicateUserException, InvalidIdException {
+    public int addUser(User user) throws DuplicateUserException, InvalidIdException {
         return dao.addUser(user);
     }
 
     @Override
-    public boolean ModifyUser(User user) throws UserDoesNotExistsException {
+    public boolean modifyUser(User user) throws UserDoesNotExistsException {
         return dao.modifyUser(user);
     }
 
     @Override
-    public boolean DeleteUserByUserId(int userId) throws UserDoesNotExistsException {
+    public boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException {
         return dao.deleteUserByUserId(userId);
     }
 

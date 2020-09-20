@@ -67,22 +67,22 @@ public class UserServiceTests {
     @Test
     public void addValidUserTest() throws DuplicateUserException, InvalidIdException {
         int expected = 5;
-        int actual = service.AddUser(goodUser);
+        int actual = service.addUser(goodUser);
         Assert.assertEquals(expected,actual);
     }
     @Test(expected = DuplicateUserException.class)
     public void addDuplicateUserTest() throws DuplicateUserException, InvalidIdException {
-        service.AddUser(errorUser);
+        service.addUser(errorUser);
     }
     @Test
     public void deleteUserTest() throws UserDoesNotExistsException {
         boolean expected = true;
-        boolean actual = service.DeleteUserByUserId(1);
+        boolean actual = service.deleteUserByUserId(1);
         Assert.assertEquals(expected,actual);
     }
     @Test(expected = UserDoesNotExistsException.class)
     public void deleteInvalidUserTest() throws UserDoesNotExistsException {
-        service.DeleteUserByUserId(999);
+        service.deleteUserByUserId(999);
     }
     @Test
     public void getUserByUserIdTest() throws UserDoesNotExistsException {
@@ -96,11 +96,11 @@ public class UserServiceTests {
     @Test
     public void modifyUserTest() throws UserDoesNotExistsException {
         boolean expected = true;
-        boolean actual = service.ModifyUser(goodUser);
+        boolean actual = service.modifyUser(goodUser);
         Assert.assertEquals(expected,actual);
     }
     @Test(expected = UserDoesNotExistsException.class)
     public void modifyUserInvalidUserTest() throws UserDoesNotExistsException {
-        service.ModifyUser(errorUser);
+        service.modifyUser(errorUser);
     }
 }

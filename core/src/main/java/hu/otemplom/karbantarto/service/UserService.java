@@ -7,9 +7,9 @@ import hu.otemplom.karbantarto.service.Exceptions.UserService.*;
 import java.util.Collection;
 
 public interface UserService {
-    int AddUser(User user) throws DuplicateUserException, InvalidIdException;
-    boolean ModifyUser(User user) throws UserDoesNotExistsException;
-    boolean DeleteUserByUserId(int userId) throws UserDoesNotExistsException;
+    int addUser(User user) throws DuplicateUserException, InvalidIdException;
+    boolean modifyUser(User user) throws UserDoesNotExistsException;
+    boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException;
     Collection<User> getAllUser();
     User getUserByUserId(int userId)throws UserDoesNotExistsException;
 }
