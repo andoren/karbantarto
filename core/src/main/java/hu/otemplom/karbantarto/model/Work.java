@@ -6,6 +6,32 @@ import java.util.Date;
 
 
 public class Work {
+
+    public Work(){
+
+    }
+    public Work(int id) throws InvalidIdException {
+        setId(id);
+    }
+    public Work(int id, String title, String description, User owner,Date createdDate ) throws InvalidIdException, InvalidCreationDateException, InvalidDescriptionException, InvalidTitleException, InvalidOwnerException {
+        this(id);
+        setTitle(title);
+        setDescription(description);
+        setCreatedDate(createdDate);
+        setOwner(owner);
+    }
+    public Work(int id, String title, String description, User worker, User owner, Date createdDate, Date proceedDate) throws InvalidIdException, InvalidOwnerException, InvalidTitleException, InvalidDescriptionException, InvalidCreationDateException, InvalidWorkerException, InvalidProceedDateException {
+        this(id,title,description,owner,createdDate);
+        setProceedDate(proceedDate);
+        setWorker(worker);
+
+
+    }
+    public Work(int id, String title, String description, User worker, User owner, Date createdDate, Date proceedDate, Date doneDate) throws InvalidDescriptionException, InvalidIdException, InvalidWorkerException, InvalidTitleException, InvalidProceedDateException, InvalidOwnerException, InvalidCreationDateException, InvalidDoneDateException {
+        this(id,title,description,worker,owner,createdDate,proceedDate);
+        this.setDoneDate(doneDate);
+    }
+
     private int Id;
     private String Title;
     private String Description;
@@ -14,6 +40,10 @@ public class Work {
     private Date CreatedDate;
     private Date ProceedDate;
     private Date DoneDate;
+
+
+
+
     public int getId() {
         return Id;
     }
