@@ -6,6 +6,7 @@ import hu.otemplom.karbantarto.model.Exceptions.Work.*;
 import hu.otemplom.karbantarto.model.Role;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.model.Work;
+import hu.otemplom.karbantarto.service.Exceptions.WorkService.WorkDoesNotExistsException;
 import org.easymock.EasyMock;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
@@ -36,7 +37,7 @@ public class WorkServiceTest {
     Work nullWork;
 
     @Before
-    public void init() throws ParseException, InvalidOwnerException, InvalidIdException, InvalidTitleException, InvalidProceedDateException, InvalidCreationDateException, InvalidDoneDateException, InvalidDescriptionException, InvalidWorkerException, InvalidRoleException {
+    public void init() throws ParseException, InvalidOwnerException, InvalidIdException, InvalidTitleException, InvalidProceedDateException, InvalidCreationDateException, InvalidDoneDateException, InvalidDescriptionException, InvalidWorkerException, InvalidRoleException, WorkDoesNotExistsException {
         goodWork = new Work();
         errorwork = new Work();
         janitor = new User();
@@ -61,6 +62,11 @@ public class WorkServiceTest {
                 new Work(10,"New Work04","This is a new work i hope its gonna work",userTwo,new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-24"))
         );
         EasyMock.expect(dao.addWork(same(goodWork))).andReturn(11).anyTimes();
+        EasyMock.expect(dao.deleteWorkById(1)).andReturn(true).anyTimes();
+        EasyMock.expect(dao.deleteWorkById(999)).andThrow(new WorkDoesNotExistsException(""));
+        EasyMock.expect(dao.modifyWork(goodWork)).andReturn(true).anyTimes();
+        EasyMock.expect(dao.modifyWork(errorwork)).andThrow(new WorkDoesNotExistsException(""));
+
         EasyMock.replay(dao);
 
     }
@@ -70,6 +76,25 @@ public class WorkServiceTest {
         int expected = 11;
         int actual = service.addWork(goodWork);
         Assert.assertEquals(expected,actual);
+    }
+    @Test
+    public void deleteValidWorkTest() throws WorkDoesNotExistsException {
+        boolean expected = true;
+        boolean actual = service.deleteWorkById(1);
+        Assert.assertEquals(expected,actual);
+    }
+    @Test(expected = WorkDoesNotExistsException.class)
+    public void deleteInvalidWorkTest() throws WorkDoesNotExistsException {
+        service.deleteWorkById(999);
+    }
+    @Test
+    public void modifyValidWorkTest() throws WorkDoesNotExistsException {
+        boolean expected = true;
+        boolean actual = service.modifyWork(goodWork);
+    }
+    @Test(expected = WorkDoesNotExistsException.class)
+    public void modifyInvalidWorkTest() throws WorkDoesNotExistsException {
+        service.modifyWork(errorwork);
     }
 }
 
