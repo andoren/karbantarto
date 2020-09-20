@@ -20,12 +20,13 @@ public class Work {
         setCreatedDate(createdDate);
         setOwner(owner);
     }
-    public Work(int id, String title, String description, User worker, User owner, Date createdDate, Date proceedDate) throws InvalidIdException, InvalidOwnerException, InvalidTitleException, InvalidDescriptionException, InvalidCreationDateException, InvalidWorkerException, InvalidProceedDateException {
+    public Work(int id, String title, String description, User worker, User owner, Date createdDate) throws InvalidIdException, InvalidOwnerException, InvalidTitleException, InvalidDescriptionException, InvalidCreationDateException, InvalidWorkerException {
         this(id,title,description,owner,createdDate);
-        setProceedDate(proceedDate);
         setWorker(worker);
-
-
+    }
+    public Work(int id, String title, String description, User worker, User owner, Date createdDate, Date proceedDate) throws InvalidDescriptionException, InvalidIdException, InvalidWorkerException, InvalidTitleException, InvalidProceedDateException, InvalidOwnerException, InvalidCreationDateException {
+        this(id,title,description,worker,owner,createdDate);
+        setProceedDate(proceedDate);
     }
     public Work(int id, String title, String description, User worker, User owner, Date createdDate, Date proceedDate, Date doneDate) throws InvalidDescriptionException, InvalidIdException, InvalidWorkerException, InvalidTitleException, InvalidProceedDateException, InvalidOwnerException, InvalidCreationDateException, InvalidDoneDateException {
         this(id,title,description,worker,owner,createdDate,proceedDate);
