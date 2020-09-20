@@ -5,7 +5,7 @@ import hu.otemplom.karbantarto.service.Exceptions.WorkService.*;
 
 import java.util.Collection;
 
-public interface WokService {
+public interface WorkService {
     int addWork(Work work);
     boolean modifyWork(Work work) throws WorkDoesNotExistsException;
     boolean deleteWorkById(int workId)throws WorkDoesNotExistsException;

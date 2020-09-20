@@ -12,6 +12,7 @@ public class UserTests {
     public void Init(){
         user = new User();
     }
+
     @Test
     public void SetValidId() throws InvalidIdException {
         user.setId(1);
