@@ -51,4 +51,19 @@ public class fakeWorkDataAccessDao implements WorkDao {
     public Collection<Work> getThisMonthDoneWorks() {
         return null;
     }
+
+    @Override
+    public boolean setWorkStarted(int workId, int userId) throws WorkDoesNotExistsException {
+        return false;
+    }
+
+    @Override
+    public boolean setWorkProcceed(int workId) throws WorkDoesNotExistsException {
+        return false;
+    }
+
+    @Override
+    public boolean setWorkDone(int workId) throws WorkDoesNotExistsException {
+        return false;
+    }
 }

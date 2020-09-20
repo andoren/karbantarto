@@ -64,4 +64,19 @@ public class WorkServiceImpl implements WorkService {
     public Collection<Work> getThisMonthDoneWorks() {
         return dao.getThisMonthDoneWorks();
     }
+
+    @Override
+    public boolean setWorkStarted(int workId, int userId) throws WorkDoesNotExistsException {
+        return dao.setWorkStarted(workId,userId);
+    }
+
+    @Override
+    public boolean setWorkProcceed(int workId) throws WorkDoesNotExistsException {
+        return dao.setWorkProcceed(workId);
+    }
+
+    @Override
+    public boolean setWorkDone(int workId) throws WorkDoesNotExistsException {
+        return dao.setWorkDone(workId);
+    }
 }

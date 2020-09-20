@@ -15,4 +15,7 @@ public interface WorkDao {
     Collection<Work> getStartedWorks();
     Collection<Work> getNeedToCheckWorks();
     Collection<Work> getThisMonthDoneWorks();
+    boolean setWorkStarted(int workId,int userId) throws WorkDoesNotExistsException;
+    boolean setWorkProcceed(int workId) throws WorkDoesNotExistsException;
+    boolean setWorkDone(int workId) throws WorkDoesNotExistsException;
 }

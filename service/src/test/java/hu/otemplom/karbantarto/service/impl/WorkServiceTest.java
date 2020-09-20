@@ -75,6 +75,12 @@ public class WorkServiceTest {
         EasyMock.expect(dao.getThisMonthDoneWorks()).andReturn(dummyDB.stream().filter(p->p.getIsDone()).collect(Collectors.toList())).anyTimes();
         EasyMock.expect(dao.getNewWorks()).andReturn(dummyDB.stream().filter(w-> !w.getIsDone() && w.getWorker() == null).collect(Collectors.toList())).anyTimes();
         EasyMock.expect(dao.getStartedWorks()).andReturn(dummyDB.stream().filter(w->!w.getIsDone()&& w.getWorker() != null && w.getProceedDate() == null).collect(Collectors.toList())).anyTimes();
+        EasyMock.expect(dao.setWorkDone(1)).andReturn(true).anyTimes();
+        EasyMock.expect(dao.setWorkDone(999)).andThrow(new WorkDoesNotExistsException("")).anyTimes();
+        EasyMock.expect(dao.setWorkProcceed(1)).andReturn(true).anyTimes();
+        EasyMock.expect(dao.setWorkProcceed(999)).andThrow(new WorkDoesNotExistsException("")).anyTimes();
+        EasyMock.expect(dao.setWorkStarted(1,1)).andReturn(true).anyTimes();
+        EasyMock.expect(dao.setWorkStarted(999,1)).andThrow(new WorkDoesNotExistsException("")).anyTimes();
         EasyMock.replay(dao);
 
     }
@@ -136,6 +142,12 @@ public class WorkServiceTest {
         int expected = 1;
         int actual = service.getStartedWorks().size();
         Assert.assertEquals(expected,actual);
+    }
+    @Test
+    public void setValidStartedWorkTest() throws WorkDoesNotExistsException {
+        boolean expected = true;
+        boolean actual = service.setWorkStarted(1,1);
+
     }
 }
 
