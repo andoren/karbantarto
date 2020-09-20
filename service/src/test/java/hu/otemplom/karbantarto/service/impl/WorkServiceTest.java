@@ -66,7 +66,8 @@ public class WorkServiceTest {
         EasyMock.expect(dao.deleteWorkById(999)).andThrow(new WorkDoesNotExistsException(""));
         EasyMock.expect(dao.modifyWork(goodWork)).andReturn(true).anyTimes();
         EasyMock.expect(dao.modifyWork(errorwork)).andThrow(new WorkDoesNotExistsException(""));
-
+        EasyMock.expect(dao.getWorkById(1)).andReturn(goodWork).anyTimes();
+        EasyMock.expect(dao.getWorkById(999)).andThrow(new WorkDoesNotExistsException(""));
         EasyMock.replay(dao);
 
     }
@@ -95,6 +96,15 @@ public class WorkServiceTest {
     @Test(expected = WorkDoesNotExistsException.class)
     public void modifyInvalidWorkTest() throws WorkDoesNotExistsException {
         service.modifyWork(errorwork);
+    }
+    @Test
+    public void validGetWorkByIdTest() throws WorkDoesNotExistsException {
+        Work actual = service.getWorkById(1);
+        Assert.assertEquals(goodWork,actual);
+    }
+    @Test(expected = WorkDoesNotExistsException.class)
+    public void invalidGetWorkByIdTest() throws WorkDoesNotExistsException {
+        service.getWorkById(999);
     }
 }
 
