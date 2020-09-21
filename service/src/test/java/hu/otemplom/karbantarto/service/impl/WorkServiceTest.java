@@ -6,6 +6,7 @@ import hu.otemplom.karbantarto.model.Exceptions.Work.*;
 import hu.otemplom.karbantarto.model.Role;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.model.Work;
+import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.WorkService.WorkDoesNotExistsException;
 import org.easymock.EasyMock;
 import org.easymock.Mock;
@@ -148,6 +149,30 @@ public class WorkServiceTest {
         boolean expected = true;
         boolean actual = service.setWorkStarted(1,1);
 
+    }
+    @Test(expected = WorkDoesNotExistsException.class)
+    public void setInvalidStartedWorkTest() throws WorkDoesNotExistsException {
+        service.setWorkStarted(999,1);
+    }
+    @Test
+    public void setValidProccedWork() throws WorkDoesNotExistsException {
+        boolean expected = true;
+        boolean actual =  service.setWorkProcceed(1);
+        Assert.assertEquals(expected,actual);
+    }
+    @Test(expected = WorkDoesNotExistsException.class)
+    public void setInvalidProceedWork() throws WorkDoesNotExistsException {
+        service.setWorkProcceed(999);
+    }
+    @Test
+    public void setValidWorkDoneTest() throws WorkDoesNotExistsException {
+        boolean expected = true;
+        boolean actual = service.setWorkDone(1);
+        Assert.assertEquals(expected,actual);
+    }
+    @Test(expected = WorkDoesNotExistsException.class)
+    public void setInvalidWorkDoneTest() throws WorkDoesNotExistsException {
+        service.setWorkDone(999);
     }
 }
 
