@@ -39,7 +39,7 @@ public class WorkServiceTest {
     Work nullWork;
 
     @Before
-    public void init() throws ParseException, InvalidOwnerException, InvalidIdException, InvalidTitleException, InvalidProceedDateException, InvalidCreationDateException, InvalidDoneDateException, InvalidDescriptionException, InvalidWorkerException, InvalidRoleException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException {
+    public void init() throws ParseException, InvalidOwnerException, InvalidIdException, InvalidTitleException, InvalidProceedDateException, InvalidCreationDateException, InvalidDoneDateException, InvalidDescriptionException, InvalidWorkerException, InvalidRoleException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, UserDoesNotExistsException {
         goodWork = new Work();
         errorwork = new Work();
         janitor = new User();
@@ -86,8 +86,7 @@ public class WorkServiceTest {
 
     }
     @Test
-    public void addValidWorkTest()
-    {
+    public void addValidWorkTest() throws InvalidIdException, InvalidCreationDateException {
         int expected = 11;
         int actual = service.addWork(goodWork);
         Assert.assertEquals(expected,actual);
@@ -145,33 +144,33 @@ public class WorkServiceTest {
         Assert.assertEquals(expected,actual);
     }
     @Test
-    public void setValidStartedWorkTest() throws WorkDoesNotExistsException {
+    public void setValidStartedWorkTest() throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException {
         boolean expected = true;
         boolean actual = service.setWorkStarted(1,1);
 
     }
     @Test(expected = WorkDoesNotExistsException.class)
-    public void setInvalidStartedWorkTest() throws WorkDoesNotExistsException {
+    public void setInvalidStartedWorkTest() throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException {
         service.setWorkStarted(999,1);
     }
     @Test
-    public void setValidProccedWork() throws WorkDoesNotExistsException {
+    public void setValidProccedWork() throws WorkDoesNotExistsException, InvalidProceedDateException {
         boolean expected = true;
         boolean actual =  service.setWorkProcceed(1);
         Assert.assertEquals(expected,actual);
     }
     @Test(expected = WorkDoesNotExistsException.class)
-    public void setInvalidProceedWork() throws WorkDoesNotExistsException {
+    public void setInvalidProceedWork() throws WorkDoesNotExistsException, InvalidProceedDateException {
         service.setWorkProcceed(999);
     }
     @Test
-    public void setValidWorkDoneTest() throws WorkDoesNotExistsException {
+    public void setValidWorkDoneTest() throws WorkDoesNotExistsException, InvalidDoneDateException {
         boolean expected = true;
         boolean actual = service.setWorkDone(1);
         Assert.assertEquals(expected,actual);
     }
     @Test(expected = WorkDoesNotExistsException.class)
-    public void setInvalidWorkDoneTest() throws WorkDoesNotExistsException {
+    public void setInvalidWorkDoneTest() throws WorkDoesNotExistsException, InvalidDoneDateException {
         service.setWorkDone(999);
     }
 }

@@ -1,7 +1,9 @@
 package hu.otemplom.karbantarto.service.impl;
 
 import hu.otemplom.karbantarto.dao.WorkDao;
+import hu.otemplom.karbantarto.model.Exceptions.Work.*;
 import hu.otemplom.karbantarto.model.Work;
+import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.WorkService.WorkDoesNotExistsException;
 import hu.otemplom.karbantarto.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class WorkServiceImpl implements WorkService {
     private WorkDao dao;
 
     @Override
-    public int addWork(Work work) {
+    public int addWork(Work work) throws InvalidIdException, InvalidCreationDateException {
         return dao.addWork(work);
     }
 
@@ -66,17 +68,17 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public boolean setWorkStarted(int workId, int userId) throws WorkDoesNotExistsException {
+    public boolean setWorkStarted(int workId, int userId) throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException {
         return dao.setWorkStarted(workId,userId);
     }
 
     @Override
-    public boolean setWorkProcceed(int workId) throws WorkDoesNotExistsException {
+    public boolean setWorkProcceed(int workId) throws WorkDoesNotExistsException, InvalidProceedDateException {
         return dao.setWorkProcceed(workId);
     }
 
     @Override
-    public boolean setWorkDone(int workId) throws WorkDoesNotExistsException {
+    public boolean setWorkDone(int workId) throws WorkDoesNotExistsException, InvalidDoneDateException {
         return dao.setWorkDone(workId);
     }
 }

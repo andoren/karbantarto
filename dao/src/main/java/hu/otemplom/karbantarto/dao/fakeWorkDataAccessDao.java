@@ -1,9 +1,6 @@
 package hu.otemplom.karbantarto.dao;
 
-import hu.otemplom.karbantarto.model.Exceptions.Work.InvalidDoneDateException;
-import hu.otemplom.karbantarto.model.Exceptions.Work.InvalidIdException;
-import hu.otemplom.karbantarto.model.Exceptions.Work.InvalidProceedDateException;
-import hu.otemplom.karbantarto.model.Exceptions.Work.InvalidWorkerException;
+import hu.otemplom.karbantarto.model.Exceptions.Work.*;
 import hu.otemplom.karbantarto.model.Work;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.WorkService.WorkDoesNotExistsException;
@@ -16,8 +13,9 @@ import java.util.stream.Collectors;
 public class fakeWorkDataAccessDao implements WorkDao {
     private static List<Work> dummyDB = new ArrayList<>();
     @Override
-    public int addWork(Work work) throws InvalidIdException {
+    public int addWork(Work work) throws InvalidIdException, InvalidCreationDateException {
         work.setId(dummyDB.size() +1);
+        work.setCreatedDate(new Date());
         dummyDB.add(work);
         return work.getId();
     }
