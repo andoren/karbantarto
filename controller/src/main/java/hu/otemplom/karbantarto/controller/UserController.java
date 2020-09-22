@@ -1,5 +1,6 @@
 package hu.otemplom.karbantarto.controller;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
@@ -36,5 +37,9 @@ public class UserController {
     @GetMapping(path="{id}")
     public User getUserByUserId(@PathVariable("id")int id) throws UserDoesNotExistsException {
         return service.getUserByUserId(id);
+    }
+    @PostMapping(path = "/login")
+    public boolean loginUser(@RequestBody ObjectNode data){
+        return service.login(data.get("username").asText(),data.get("password").asText());
     }
 }

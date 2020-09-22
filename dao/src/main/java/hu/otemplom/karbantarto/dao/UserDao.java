@@ -13,4 +13,5 @@ public interface UserDao {
     boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException;
     Collection<User> getAllUser();
     User getUserByUserId(int userId)throws UserDoesNotExistsException;
+    boolean login(String username, String password);
 }

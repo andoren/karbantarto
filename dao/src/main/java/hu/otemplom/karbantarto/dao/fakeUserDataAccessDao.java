@@ -81,4 +81,9 @@ public class fakeUserDataAccessDao implements UserDao {
         return dummyDB.stream().filter(p->p.getId() == userId).findFirst()
                 .orElseThrow(()->new UserDoesNotExistsException("The user does not exists please try again. The userid is "+userId));
     }
+
+    @Override
+    public boolean login(String username, String password) {
+        return dummyDB.stream().filter(u->u.getUsername().equals(username) && u.getPassword().equals(password)).findFirst().isPresent();
+    }
 }

@@ -49,4 +49,19 @@ public class UserServiceImpl implements UserService {
     public User getUserByUserId(int userId) throws UserDoesNotExistsException {
         return dao.getUserByUserId(userId);
     }
+
+    @Override
+    public boolean login(String username, String password) {
+        return dao.login(username,password);
+    }
+
+    @Override
+    public User getUserFromToken(String token) {
+        return null;
+    }
+
+    @Override
+    public String generateTokenFromUser(User user) {
+        return null;
+    }
 }
