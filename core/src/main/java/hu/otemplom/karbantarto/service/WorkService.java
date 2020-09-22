@@ -20,5 +20,5 @@ public interface WorkService {
     boolean setWorkStarted(int workId,int userId) throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException;
     boolean setWorkProcceed(int workId) throws WorkDoesNotExistsException, InvalidProceedDateException;
     boolean setWorkDone(int workId) throws WorkDoesNotExistsException, InvalidDoneDateException;
-
+    boolean setWorkToRejected(int workId) throws WorkDoesNotExistsException, InvalidIdException, InvalidCreationDateException, InvalidTitleException, InvalidDescriptionException, InvalidOwnerException;
 }

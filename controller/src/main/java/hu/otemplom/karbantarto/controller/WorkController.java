@@ -70,4 +70,8 @@ public class WorkController {
     public void setWorkToDone(@RequestBody ObjectNode workId) throws InvalidDoneDateException, WorkDoesNotExistsException {
         workService.setWorkDone(workId.get("workId").asInt());
     }
+    @PostMapping(path = "rejectwork")
+    public void setWorkToRejected(@RequestBody ObjectNode workId) throws WorkDoesNotExistsException, InvalidIdException, InvalidOwnerException, InvalidTitleException, InvalidDescriptionException, InvalidCreationDateException {
+        workService.setWorkToRejected(workId.get("workId").asInt());
+    }
 }

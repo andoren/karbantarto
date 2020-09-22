@@ -81,4 +81,9 @@ public class WorkServiceImpl implements WorkService {
     public boolean setWorkDone(int workId) throws WorkDoesNotExistsException, InvalidDoneDateException {
         return dao.setWorkDone(workId);
     }
+
+    @Override
+    public boolean setWorkToRejected(int workId) throws WorkDoesNotExistsException, InvalidIdException, InvalidCreationDateException, InvalidTitleException, InvalidDescriptionException, InvalidOwnerException {
+        return dao.setWorkToRejected(workId);
+    }
 }

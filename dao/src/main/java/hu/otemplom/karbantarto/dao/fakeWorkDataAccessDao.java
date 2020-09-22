@@ -89,4 +89,14 @@ public class fakeWorkDataAccessDao implements WorkDao {
         work.setDoneDate(new Date());
         return true;
     }
+
+    @Override
+    public boolean setWorkToRejected(int workId) throws WorkDoesNotExistsException, InvalidTitleException, InvalidIdException, InvalidOwnerException, InvalidDescriptionException, InvalidCreationDateException {
+        Work work = getWorkById(workId);
+        work.setTitle(work.getTitle() + " - Elutasítva");
+        Work newWork = new Work(work.getId(),work.getTitle(),work.getDescription(),work.getOwner(),work.getCreatedDate());
+        int index = dummyDB.indexOf(work);
+        dummyDB.set(index,newWork);
+        return false;
+    }
 }
