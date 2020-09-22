@@ -36,6 +36,7 @@ public class Work {
     private int Id;
     private String Title;
     private String Description;
+    private Area area;
     private User Worker;
     private User Owner;
     private Date CreatedDate;
@@ -79,7 +80,13 @@ public class Work {
         else if (description.length() > 1000) throw new InvalidDescriptionException("The description is too long.(max: 1000). The given description length is: "+description.length());
         else Description = description;
     }
+    public Area getArea() {
+        return area;
+    }
 
+    public void setArea(Area area) {
+        this.area = area;
+    }
     public User getWorker() {
         return Worker;
     }
