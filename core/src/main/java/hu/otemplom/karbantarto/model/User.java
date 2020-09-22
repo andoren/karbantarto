@@ -29,6 +29,16 @@ public class User {
     private Role Role;
     private String Password;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String email;
+
     public int getId() {
         return Id;
     }

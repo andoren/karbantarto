@@ -83,7 +83,7 @@ public class fakeUserDataAccessDao implements UserDao {
     }
 
     @Override
-    public boolean login(String username, String password) {
-        return dummyDB.stream().filter(u->u.getUsername().equals(username) && u.getPassword().equals(password)).findFirst().isPresent();
+    public User login(String username, String password) {
+        return dummyDB.stream().filter(u->u.getUsername().equals(username) && u.getPassword().equals(password)).findFirst().orElse(null);
     }
 }

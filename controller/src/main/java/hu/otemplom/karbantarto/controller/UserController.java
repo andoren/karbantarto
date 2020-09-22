@@ -39,7 +39,7 @@ public class UserController {
         return service.getUserByUserId(id);
     }
     @PostMapping(path = "/login")
-    public boolean loginUser(@RequestBody ObjectNode data){
+    public String loginUser(@RequestBody ObjectNode data){
         return service.login(data.get("username").asText(),data.get("password").asText());
     }
 }
