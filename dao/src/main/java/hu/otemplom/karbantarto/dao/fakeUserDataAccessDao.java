@@ -1,6 +1,8 @@
 package hu.otemplom.karbantarto.dao;
 
 
+import hu.otemplom.karbantarto.model.Exceptions.User.*;
+import hu.otemplom.karbantarto.model.Role;
 import hu.otemplom.karbantarto.model.User;
 
 import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
@@ -8,13 +10,40 @@ import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsE
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 @Repository("fakeUserDao")
 public class fakeUserDataAccessDao implements UserDao {
-    private static List <User> dummyDB = new ArrayList<>();
+    private static List <User> dummyDB;
 
+    static {
+        try {
+            dummyDB = Arrays.asList(
+                    new User(1,"Pekár Mihály","misike", Role.Admin,"Kiscica05"),
+                    new User(2,"Stuller Istvánné","stullerine", Role.User,"Kiscica05"),
+                    new User(3,"Kovács Éva","kovicse", Role.User,"Kiscica05"),
+                    new User(4,"Körmendi Szilvia","koszilvi", Role.User,"Kiscica05"),
+                    new User(5,"Litauszki János","lityojani", Role.User,"Kiscica05"),
+                    new User(6,"Kovácsné Horváth Gyöngyi","horkovi", Role.User,"Kiscica05"),
+                    new User(7,"Hajdú Ágnes","hajdua", Role.Admin,"Kiscica05"),
+                    new User(8,"Kamarás Mária","kamzim", Role.Admin,"Kiscica05"),
+                    new User(9,"Pekár Mihály","pekarm", Role.Janitor,"Kiscica05"),
+                    new User(10,"Sárkány János","sarkanyj", Role.Janitor,"Kiscica05")
+                );
+        } catch (InvalidUsernameException e) {
+            e.printStackTrace();
+        } catch (InvalidIdException e) {
+            e.printStackTrace();
+        } catch (InvalidFullNameException e) {
+            e.printStackTrace();
+        } catch (InvalidRoleException e) {
+            e.printStackTrace();
+        } catch (InvalidPasswordException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public int addUser(User user) throws DuplicateUserException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException {
