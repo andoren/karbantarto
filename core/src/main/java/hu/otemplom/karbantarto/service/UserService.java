@@ -15,7 +15,7 @@ public interface UserService {
     boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException;
     Collection<User> getAllUser();
     User getUserByUserId(int userId)throws UserDoesNotExistsException;
-    String login(String username, String password);
+    User login(String username, String password);
     User getUserFromToken(String token) throws InvalidIdException, InvalidFullNameException, InvalidRoleException, InvalidUsernameException;
     String generateTokenFromUser(User user);
 

@@ -7,7 +7,9 @@ import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserExcep
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 import hu.otemplom.karbantarto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 @RequestMapping("api/v1/user")
@@ -39,7 +41,10 @@ public class UserController {
         return service.getUserByUserId(id);
     }
     @PostMapping(path = "/login")
-    public String loginUser(@RequestBody ObjectNode data){
-        return service.login(data.get("username").asText(),data.get("password").asText());
+    public User loginUser(@RequestBody ObjectNode data){
+        User user = service.login(data.get("username").asText(),data.get("password").asText());
+        if(user == null)throw new ResponseStatusException(
+                HttpStatus.UNAUTHORIZED, "Hibás felhasználónév vagy jelszó!");
+        return user;
     }
 }

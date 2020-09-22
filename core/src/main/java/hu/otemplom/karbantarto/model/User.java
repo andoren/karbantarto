@@ -28,6 +28,15 @@ public class User {
     private String Username;
     private Role Role;
     private String Password;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getEmail() {
         return email;

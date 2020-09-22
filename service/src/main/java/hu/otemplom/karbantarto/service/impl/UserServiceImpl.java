@@ -60,12 +60,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(String username, String password) {
+    public User login(String username, String password) {
         User user = dao.login(username,password);
         if( user != null){
-            return generateTokenFromUser(user);
+            user.setToken(generateTokenFromUser(user));
         }
-        return "";
+        return user;
     }
 
     @Override
