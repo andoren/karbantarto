@@ -65,7 +65,8 @@ public class UserAuthenticator implements IUserAuthenticator {
 
     @Override
     public boolean userIsUserOrAdmin(String rawToken) throws InvalidIdException, InvalidUsernameException, InvalidFullNameException, InvalidRoleException, InvalidTokenException {
-        return getUserFromRawToken(rawToken).getRole() == Role.Admin;
+        User user = getUserFromRawToken(rawToken);
+        return user.getRole() == Role.Admin ||  user.getRole() == Role.User ;
     }
 
 
