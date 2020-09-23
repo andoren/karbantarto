@@ -43,9 +43,6 @@ public class Work {
     private Date ProceedDate;
     private Date DoneDate;
 
-
-
-
     public int getId() {
         return Id;
     }

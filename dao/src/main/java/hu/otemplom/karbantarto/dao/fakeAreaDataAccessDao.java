@@ -85,6 +85,6 @@ public class fakeAreaDataAccessDao implements AreaDao{
 
     public Collection<Area> getAreasByUserId(int userId) {
 
-        return dummyDB.stream().filter(p -> p.getBoss().getId() == userId).collect(Collectors.toList());
+        return dummyDB;
     }
 }

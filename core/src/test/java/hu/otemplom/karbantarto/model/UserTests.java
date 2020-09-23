@@ -28,28 +28,28 @@ public class UserTests {
     }
     @Test
     public void SetValidFullName() throws InvalidFullNameException {
-        user.setFullName("John Doe");
-        Assert.assertEquals("John Doe",user.getFullName());
+        user.setFullname("John Doe");
+        Assert.assertEquals("John Doe",user.getFullname());
     }
     @Test(expected = InvalidFullNameException.class)
     public void SetNoSpaceFullName() throws InvalidFullNameException {
-        user.setFullName("JohnDoe");
+        user.setFullname("JohnDoe");
     }
     @Test(expected = InvalidFullNameException.class)
     public void SetNullFullName() throws InvalidFullNameException {
-        user.setFullName(null);
+        user.setFullname(null);
     }
     @Test(expected = InvalidFullNameException.class)
     public void SetTooShortFullName() throws InvalidFullNameException {
-        user.setFullName("John");
+        user.setFullname("John");
     }
     @Test(expected = InvalidFullNameException.class)
     public void SetOnlyWhiteSpaceFullName() throws InvalidFullNameException {
-        user.setFullName("         ");
+        user.setFullname("         ");
     }
     @Test(expected = InvalidFullNameException.class)
     public void SetTooLongFullName() throws InvalidFullNameException {
-        user.setFullName("123456789 123456789 123456789 123456789  123456789 1");
+        user.setFullname("123456789 123456789 123456789 123456789  123456789 1");
     }
     @Test
     public void SetValidUsername() throws InvalidUsernameException {

@@ -16,9 +16,10 @@ import java.util.Collection;
 @RestController
 public class UserController {
     private UserService service;
+    private IUserAuthenticator authenticator;
     @Autowired
-    public UserController(UserService service) {
-        this.service = service;
+    public UserController(UserService service, IUserAuthenticator authenticator) {
+        this.service = service; this.authenticator = authenticator;
     }
     @GetMapping
     public Collection<User> getAllUser(){
@@ -43,8 +44,10 @@ public class UserController {
     @PostMapping(path = "/login")
     public User loginUser(@RequestBody ObjectNode data){
         User user = service.login(data.get("username").asText(),data.get("password").asText());
+
         if(user == null)throw new ResponseStatusException(
                 HttpStatus.UNAUTHORIZED, "Hibás felhasználónév vagy jelszó!");
+        user.setToken(authenticator.generateTokenFromUser(user));
         return user;
     }
 }

@@ -26,7 +26,7 @@ import java.util.Collection;
 @ComponentScan(basePackages = {"hu.otemplom.karbantarto.dao"})
 public class UserServiceImpl implements UserService {
 
-    static Algorithm algorithmHS = Algorithm.HMAC256("k35Vl1o1L5");
+
     @Autowired
     public UserServiceImpl(@Qualifier("fakeUserDao") UserDao dao) {
         this.dao = dao;
@@ -62,46 +62,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String username, String password) {
         User user = dao.login(username,password);
-        if( user != null){
-            user.setToken(generateTokenFromUser(user));
-        }
+
         return user;
     }
 
-    @Override
-    public User getUserFromToken(String token) throws InvalidIdException, InvalidFullNameException, InvalidRoleException, InvalidUsernameException {
 
-        token = token.split(":")[1] ;
-        token = token.trim();
-        JWTVerifier verifier = JWT.require(algorithmHS)
-                .build();
-        DecodedJWT jwt = verifier.verify(token);
-        System.out.println(jwt.getClaim("realname").asString());
-        User user = new User();
-        user.setId(jwt.getClaim("userId").asInt());
-        user.setEmail(jwt.getClaim("email").asString());
-        user.setFullName(jwt.getClaim("realname").asString());
-        user.setRole(Role.valueOf(jwt.getClaim("role").asString()));
-        user.setUsername(jwt.getClaim("username").asString());
-        return user;
-    }
-
-    @Override
-    public String generateTokenFromUser(User user) {
-        try {
-
-            String token = JWT.create()
-                    .withClaim("userId",user.getId())
-                    .withClaim("username",user.getUsername())
-                    .withClaim("realname",user.getFullName())
-                    .withClaim("email",user.getEmail())
-                    .withClaim("role",user.getRole().name())
-                    .sign(algorithmHS);
-            return token;
-        } catch (JWTCreationException exception){
-            System.out.println("JWT Generálási hiba");
-            return "";
-        }
-    }
 
 }

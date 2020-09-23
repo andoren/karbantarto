@@ -16,7 +16,6 @@ public interface UserService {
     Collection<User> getAllUser();
     User getUserByUserId(int userId)throws UserDoesNotExistsException;
     User login(String username, String password);
-    User getUserFromToken(String token) throws InvalidIdException, InvalidFullNameException, InvalidRoleException, InvalidUsernameException;
-    String generateTokenFromUser(User user);
+
 
 }
