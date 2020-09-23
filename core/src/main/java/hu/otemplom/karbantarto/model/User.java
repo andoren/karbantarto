@@ -2,7 +2,6 @@ package hu.otemplom.karbantarto.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.otemplom.karbantarto.model.Exceptions.User.*;
-import hu.otemplom.karbantarto.model.Role;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +28,7 @@ public class User {
     private String fullname;
     private String username;
     private Role role;
-    @JsonIgnore
+
     private String password;
     private String token;
 

@@ -8,6 +8,7 @@ import hu.otemplom.karbantarto.model.Exceptions.User.InvalidPasswordException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidRoleException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidUsernameException;
 import hu.otemplom.karbantarto.model.Exceptions.Work.*;
+import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.model.Work;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.WorkService.WorkDoesNotExistsException;
@@ -93,19 +94,28 @@ public class WorkController {
         return workService.getWorksByUserId(id);
     }
     @PostMapping(path="/settostarted")
-    public void setWorkToStarted(@RequestBody ObjectNode workAndUserId) throws UserDoesNotExistsException, InvalidWorkerException, WorkDoesNotExistsException {
-        workService.setWorkStarted(workAndUserId.get("workId").asInt(),workAndUserId.get("userId").asInt());
+    public void setWorkToStarted(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws UserDoesNotExistsException, InvalidWorkerException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidUsernameException, InvalidFullNameException, InvalidRoleException, InvalidTokenException {
+        if(authenticator.userIsJanitor(rawToken)){
+            workService.setWorkStarted(workId.get("workId").asInt(),authenticator.getUserFromRawToken(rawToken).getId());
+        }
+
     }
     @PostMapping(path = "/settoproceed")
-    public void setWorkToProceed(@RequestBody ObjectNode workId) throws InvalidProceedDateException, WorkDoesNotExistsException {
+    public void setWorkToProceed(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws InvalidProceedDateException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsJanitor(rawToken)){
         workService.setWorkProcceed(workId.get("workId").asInt());
+        }
     }
     @PostMapping(path="/settodone")
-    public void setWorkToDone(@RequestBody ObjectNode workId) throws InvalidDoneDateException, WorkDoesNotExistsException {
-        workService.setWorkDone(workId.get("workId").asInt());
+    public void setWorkToDone(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws InvalidDoneDateException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsUserOrAdmin(rawToken)) {
+            workService.setWorkDone(workId.get("workId").asInt());
+        }
     }
     @PostMapping(path = "rejectwork")
-    public void setWorkToRejected(@RequestBody ObjectNode workId) throws WorkDoesNotExistsException, InvalidIdException, InvalidOwnerException, InvalidTitleException, InvalidDescriptionException, InvalidCreationDateException {
-        workService.setWorkToRejected(workId.get("workId").asInt());
+    public void setWorkToRejected(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws WorkDoesNotExistsException, InvalidIdException, InvalidOwnerException, InvalidTitleException, InvalidDescriptionException, InvalidCreationDateException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsUserOrAdmin(rawToken)) {
+            workService.setWorkToRejected(workId.get("workId").asInt());
+        }
     }
 }
