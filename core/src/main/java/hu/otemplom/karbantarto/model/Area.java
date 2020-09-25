@@ -19,10 +19,10 @@ public class Area {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name="name")
+    @Column(name="name", nullable = false)
     private String name;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner")
+    @JoinColumn(name = "owner", nullable = false)
     private User boss;
 
     public int getId() {

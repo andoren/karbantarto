@@ -29,14 +29,14 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    @Column(name="fullname",nullable = false, updatable = false)
+    @Column(name="fullname",nullable = false)
     private String fullname;
-    @Column(name="username",nullable = false, updatable = false)
+    @Column(name="username",nullable = false)
     private String username;
     @Enumerated(value = EnumType.STRING)
-    @Column(name="role",nullable = false, updatable = false)
+    @Column(name="role",nullable = false)
     private Role role;
-    @Column(name="passowrd",nullable = false, updatable = false)
+    @Column(name="passowrd",nullable = false)
     private String password;
     @Transient
     private String token;
