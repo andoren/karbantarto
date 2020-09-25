@@ -4,6 +4,8 @@ import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidBossException;
 import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidIdException;
 import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidNameException;
 
+import javax.persistence.*;
+
 public class Area {
     public Area() {
 
@@ -14,9 +16,13 @@ public class Area {
         this.name = name;
         this.boss = boss;
     }
-
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
+    @Column(name="name")
     private String name;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner")
     private User boss;
 
     public int getId() {

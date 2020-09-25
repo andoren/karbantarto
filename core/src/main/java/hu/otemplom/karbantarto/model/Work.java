@@ -2,6 +2,7 @@ package hu.otemplom.karbantarto.model;
 
 import hu.otemplom.karbantarto.model.Exceptions.Work.*;
 
+import javax.persistence.*;
 import java.util.Date;
 
 
@@ -32,15 +33,27 @@ public class Work {
         this(id,title,description,worker,owner,createdDate,proceedDate);
         this.setDoneDate(doneDate);
     }
-
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int Id;
+    @Column(name = "title")
     private String Title;
+    @Column(name = "description")
     private String Description;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "area")
     private Area area;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "worker")
     private User Worker;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner")
     private User Owner;
+    @Column(name = "created_date")
     private Date CreatedDate;
+    @Column(name = "proceed_date")
     private Date ProceedDate;
+    @Column(name = "done_date")
     private Date DoneDate;
 
     public int getId() {

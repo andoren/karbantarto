@@ -2,10 +2,13 @@ package hu.otemplom.karbantarto.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.otemplom.karbantarto.model.Exceptions.User.*;
+
+import javax.persistence.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+@Entity
+@Table(name = "User")
 public class User {
 
 
@@ -23,13 +26,19 @@ public class User {
         this(id,fullName,username,role);
         setPassword(password);
     }
-
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
+    @Column(name="fullname",nullable = false, updatable = false)
     private String fullname;
+    @Column(name="username",nullable = false, updatable = false)
     private String username;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name="role",nullable = false, updatable = false)
     private Role role;
-
+    @Column(name="passowrd",nullable = false, updatable = false)
     private String password;
+    @Transient
     private String token;
 
     public String getToken() {
