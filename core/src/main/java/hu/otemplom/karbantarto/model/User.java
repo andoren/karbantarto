@@ -36,7 +36,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name="role",nullable = false)
     private Role role;
-    @Column(name="passowrd",nullable = false)
+    @Column(name="password",nullable = false)
     private String password;
     @Transient
     private String token;

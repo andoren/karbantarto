@@ -46,6 +46,16 @@ public class fakeUserDataAccessDao implements UserDao {
     }
 
 
+    @Override
+    public void setup() {
+
+    }
+
+    @Override
+    public void exit() {
+
+    }
+
     public int addUser(User user) throws DuplicateUserException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException {
         user.setId(dummyDB.size()+1);
         dummyDB.add(user);

@@ -51,6 +51,7 @@ public class UserController {
     }
     @PostMapping(path = "/login")
     public User loginUser(@RequestBody ObjectNode data){
+        System.out.println("meow");
         User user = service.login(data.get("username").asText(),data.get("password").asText());
 
         if(user == null)throw new ResponseStatusException(

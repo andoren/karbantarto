@@ -18,15 +18,20 @@ public class UserServiceImpl implements UserService {
 
 
     @Autowired
-    public UserServiceImpl(@Qualifier("fakeUserDao") UserDao dao) {
+    public UserServiceImpl(@Qualifier("mysqlUserDao") UserDao dao) {
+
         this.dao = dao;
+
     }
 
     private UserDao dao;
 
     @Override
     public int addUser(User user) throws DuplicateUserException, InvalidIdException {
-        return dao.addUser(user);
+        dao.setup();
+        int newId =  dao.addUser(user);
+        dao.exit();
+        return newId;
     }
 
     @Override
@@ -36,23 +41,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException {
-        return dao.deleteUserByUserId(userId);
+        dao.setup();
+        boolean success = dao.deleteUserByUserId(userId);
+        dao.exit();
+        return success;
     }
 
     @Override
     public Collection<User> getAllUser() {
-        return dao.getAllUser();
+        dao.setup();
+        Collection<User> users = dao.getAllUser();
+        dao.exit();
+        return users;
     }
 
     @Override
     public User getUserByUserId(int userId) throws UserDoesNotExistsException {
-        return dao.getUserByUserId(userId);
+        dao.setup();
+        User user = dao.getUserByUserId(userId);
+        dao.exit();
+
+        return user;
     }
 
     @Override
     public User login(String username, String password) {
+        System.out.println("meow");
+        dao.setup();
         User user = dao.login(username,password);
-
+        dao.exit();
         return user;
     }
 
