@@ -36,17 +36,34 @@ public class  MysqlUserDataAccessDao implements UserDao {
 
     @Override
     public int addUser(User user) throws DuplicateUserException, InvalidIdException {
-        return 0;
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.persist(user);
+        session.getTransaction().commit();
+        session.close();
+        return user.getId();
     }
 
     @Override
     public boolean modifyUser(User user) throws UserDoesNotExistsException {
-        return false;
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.update(user);
+
+        session.getTransaction().commit();
+        session.close();
+        return true;
     }
 
     @Override
     public boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException {
-        return false;
+        User user = getUserByUserId(userId);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.delete(user);
+        session.getTransaction().commit();
+        session.close();
+        return true;
     }
 
     @Override
