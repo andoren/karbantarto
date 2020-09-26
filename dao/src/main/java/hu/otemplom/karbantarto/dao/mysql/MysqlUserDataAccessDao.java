@@ -10,15 +10,16 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 @Repository("mysqlUserDao")
-public class MysqlUserDataAccessDao implements UserDao {
+public class  MysqlUserDataAccessDao implements UserDao {
 
     protected SessionFactory sessionFactory;
     final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure() // configures settings from hibernate.cfg.xml
+            .configure()
             .build();
     public void setup() {
 
@@ -50,12 +51,19 @@ public class MysqlUserDataAccessDao implements UserDao {
 
     @Override
     public Collection<User> getAllUser() {
-        return null;
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from User");
+        return query.getResultList();
     }
 
     @Override
     public User getUserByUserId(int userId) throws UserDoesNotExistsException {
-        return null;
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        User user = session.get(User.class,userId);
+        session.close();
+        return user;
     }
 
     @Override
