@@ -5,7 +5,8 @@ import hu.otemplom.karbantarto.model.Exceptions.Work.*;
 import javax.persistence.*;
 import java.util.Date;
 
-
+@Entity
+@Table(name = "work")
 public class Work {
 
     public Work(){

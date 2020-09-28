@@ -48,6 +48,16 @@ public class fakeAreaDataAccessDao implements AreaDao{
         }
     }
 
+    @Override
+    public void setup() {
+
+    }
+
+    @Override
+    public void exit() {
+
+    }
+
     public int addArea(Area area) throws AreaAlreadyExistsException, InvalidIdException {
         int exists = dummyDB.indexOf(area);
         if(exists > 0){

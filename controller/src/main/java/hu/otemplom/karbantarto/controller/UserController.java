@@ -6,6 +6,7 @@ import hu.otemplom.karbantarto.model.Exceptions.User.InvalidFullNameException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidRoleException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidUsernameException;
+import hu.otemplom.karbantarto.model.Role;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
@@ -22,9 +23,11 @@ public class UserController {
     private UserService service;
     private IUserAuthenticator authenticator;
     @Autowired
-    public UserController(UserService service, IUserAuthenticator authenticator) {
+    public UserController(UserService service, IUserAuthenticator authenticator) throws InvalidUsernameException, InvalidIdException, InvalidFullNameException, InvalidRoleException {
         this.service = service;
         this.authenticator = authenticator;
+        System.out.print("Valid token: ");
+        System.out.println(" "+authenticator.generateTokenFromUser(new User(1,"Pekár Mihály","misike", Role.Admin)));
     }
     @GetMapping
     public Collection<User> getAllUser(@RequestHeader("authorization") String rawToken) throws InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
@@ -51,9 +54,7 @@ public class UserController {
     }
     @PostMapping(path = "/login")
     public User loginUser(@RequestBody ObjectNode data){
-        System.out.println("meow");
         User user = service.login(data.get("username").asText(),data.get("password").asText());
-
         if(user == null)throw new ResponseStatusException(
                 HttpStatus.UNAUTHORIZED, "Hibás felhasználónév vagy jelszó!");
         user.setToken(authenticator.generateTokenFromUser(user));

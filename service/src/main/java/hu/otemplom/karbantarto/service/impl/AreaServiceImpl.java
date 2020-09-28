@@ -19,9 +19,10 @@ import java.util.Collection;
 public class AreaServiceImpl implements AreaService {
     AreaDao dao;
     @Autowired
-    public AreaServiceImpl(@Qualifier("fakeDao") AreaDao dao) {
+    public AreaServiceImpl(@Qualifier("mysqlAreaDao") AreaDao dao) {
 
         this.dao = dao;
+
     }
 
     public int addArea(Area area) throws AreaAlreadyExistsException, InvalidAreaException, InvalidIdException {
@@ -48,8 +49,9 @@ public class AreaServiceImpl implements AreaService {
     }
 
     public Collection<Area> getAreasByUserId(int userId) {
-
-        return dao.getAreasByUserId(userId);
-
+        dao.setup();
+        Collection<Area> areas = dao.getAreasByUserId(userId);
+        dao.exit();
+        return areas;
     }
 }

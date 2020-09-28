@@ -7,6 +7,8 @@ import hu.otemplom.karbantarto.service.Exceptions.AreaService.*;
 import java.util.Collection;
 
 public interface AreaDao {
+    void setup();
+    void exit();
     int addArea(Area area) throws AreaAlreadyExistsException, InvalidAreaException, InvalidIdException;
     boolean modifyArea(Area area) throws AreaDoesNotExistsException,InvalidAreaException;
     boolean deleteAreaById(int areaId) throws AreaDoesNotExistsException;

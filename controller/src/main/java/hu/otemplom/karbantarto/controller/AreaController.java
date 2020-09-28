@@ -32,8 +32,7 @@ public class AreaController {
     public Collection<Area> getAllArea(@RequestHeader("authorization") String rawToken) throws hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
         if(authenticator.userIsAdmin(rawToken)){
             return areaService.getAllArea();
-        }
-        else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"",new InvalidTokenException("meow"));
+        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"",new InvalidTokenException("meow"));
 
     }
     @PostMapping

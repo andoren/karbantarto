@@ -6,6 +6,8 @@ import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidNameException;
 
 import javax.persistence.*;
 
+@Entity()
+@Table(name = "area")
 public class Area {
     public Area() {
 
@@ -21,8 +23,8 @@ public class Area {
     private int id;
     @Column(name="name", nullable = false)
     private String name;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner", nullable = false)
+    @ManyToOne( )
+    @JoinColumn(name = "boss", nullable = true)
     private User boss;
 
     public int getId() {
@@ -50,7 +52,6 @@ public class Area {
     }
 
     public void setBoss(User boss) throws InvalidBossException {
-        if(boss == null) throw new InvalidBossException("The boss cannot be null. Please check again.");
-       else  this.boss = boss;
+       this.boss = boss;
     }
 }

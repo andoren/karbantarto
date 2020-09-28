@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.otemplom.karbantarto.model.Exceptions.User.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +42,8 @@ public class User {
     private String password;
     @Transient
     private String token;
+
+
 
     public String getToken() {
         return token;

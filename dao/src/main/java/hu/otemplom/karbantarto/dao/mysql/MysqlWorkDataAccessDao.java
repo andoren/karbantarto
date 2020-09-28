@@ -16,6 +16,16 @@ import java.util.Collection;
 public class  MysqlWorkDataAccessDao implements WorkDao {
 
 
+    @Override
+    public void setup() {
+
+    }
+
+    @Override
+    public void exit() {
+
+    }
+
     public int addWork(Work work) throws InvalidIdException, InvalidCreationDateException {
         return 0;
     }

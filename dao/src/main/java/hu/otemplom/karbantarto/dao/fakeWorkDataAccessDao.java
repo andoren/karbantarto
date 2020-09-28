@@ -12,6 +12,17 @@ import java.util.stream.Collectors;
 @Repository("fakeWorkDao")
 public class fakeWorkDataAccessDao implements WorkDao {
     private static List<Work> dummyDB = new ArrayList<>();
+
+    @Override
+    public void setup() {
+
+    }
+
+    @Override
+    public void exit() {
+
+    }
+
     @Override
     public int addWork(Work work) throws InvalidIdException, InvalidCreationDateException {
         work.setId(dummyDB.size() +1);
