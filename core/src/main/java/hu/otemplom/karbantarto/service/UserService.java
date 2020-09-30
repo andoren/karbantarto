@@ -1,5 +1,6 @@
 package hu.otemplom.karbantarto.service;
 
+import hu.otemplom.karbantarto.model.Area;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidFullNameException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidRoleException;

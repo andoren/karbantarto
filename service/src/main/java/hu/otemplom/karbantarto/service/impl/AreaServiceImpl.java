@@ -22,7 +22,7 @@ public class AreaServiceImpl implements AreaService {
     public AreaServiceImpl(@Qualifier("mysqlAreaDao") AreaDao dao) {
 
         this.dao = dao;
-
+        dao.setup();
     }
 
     public int addArea(Area area) throws AreaAlreadyExistsException, InvalidAreaException, InvalidIdException {
@@ -49,9 +49,9 @@ public class AreaServiceImpl implements AreaService {
     }
 
     public Collection<Area> getAreasByUserId(int userId) {
-        dao.setup();
+
         Collection<Area> areas = dao.getAreasByUserId(userId);
-        dao.exit();
+
         return areas;
     }
 }

@@ -1,6 +1,7 @@
 package hu.otemplom.karbantarto.dao;
 
 
+import hu.otemplom.karbantarto.model.Area;
 import hu.otemplom.karbantarto.model.Exceptions.User.*;
 import hu.otemplom.karbantarto.model.Role;
 import hu.otemplom.karbantarto.model.User;
@@ -96,4 +97,5 @@ public class fakeUserDataAccessDao implements UserDao {
     public User login(String username, String password) {
         return dummyDB.stream().filter(u->u.getUsername().equals(username) && u.getPassword().equals(password)).findFirst().orElse(null);
     }
+
 }

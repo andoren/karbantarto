@@ -38,6 +38,11 @@ public class UserController {
     }
     @PostMapping
     public void addUser(@RequestBody User user) throws InvalidIdException, DuplicateUserException {
+        System.out.println(user.getPassword());
+        System.out.println(user.getUsername());
+        System.out.println(user.getFullname());
+        System.out.println(user.getEmail());
+        System.out.println(user.getRole());
         service.addUser(user);
     }
     @PutMapping
@@ -57,6 +62,7 @@ public class UserController {
         User user = service.login(data.get("username").asText(),data.get("password").asText());
         if(user == null)throw new ResponseStatusException(
                 HttpStatus.UNAUTHORIZED, "Hibás felhasználónév vagy jelszó!");
+        System.out.println(user.getId());
         user.setToken(authenticator.generateTokenFromUser(user));
         return user;
     }

@@ -1,6 +1,7 @@
 package hu.otemplom.karbantarto.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import hu.otemplom.karbantarto.model.Exceptions.User.*;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import hu.otemplom.karbantarto.model.Area;
 @Entity
 @Table(name = "User")
 public class User {
@@ -28,8 +29,9 @@ public class User {
         this(id,fullName,username,role);
         setPassword(password);
     }
+
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     @Column(name="fullname",nullable = false)
     private String fullname;
@@ -42,7 +44,11 @@ public class User {
     private String password;
     @Transient
     private String token;
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="userareas",joinColumns=@JoinColumn(name = "userId"),
+            inverseJoinColumns=@JoinColumn(name = "areaId"))
+    @JsonManagedReference
+    Collection<Area> areas = new ArrayList<>();
 
 
     public String getToken() {
@@ -99,7 +105,7 @@ public class User {
 
         else this.username = username;
     }
-    @JsonIgnore
+
     public String getPassword() {
         return password;
     }

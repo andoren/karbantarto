@@ -1,6 +1,7 @@
 package hu.otemplom.karbantarto.dao.mysql;
 
 import hu.otemplom.karbantarto.dao.UserDao;
+import hu.otemplom.karbantarto.model.Area;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
@@ -13,6 +14,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.TypedQuery;
 import java.util.Collection;
 @Repository("mysqlUserDao")
 public class  MysqlUserDataAccessDao implements UserDao {
@@ -34,13 +36,16 @@ public class  MysqlUserDataAccessDao implements UserDao {
         sessionFactory.close();
     }
 
+
     @Override
     public int addUser(User user) throws DuplicateUserException, InvalidIdException {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        System.out.println(user.getPassword());
         session.persist(user);
         session.getTransaction().commit();
         session.close();
+
         return user.getId();
     }
 
@@ -52,6 +57,7 @@ public class  MysqlUserDataAccessDao implements UserDao {
 
         session.getTransaction().commit();
         session.close();
+
         return true;
     }
 
@@ -71,7 +77,10 @@ public class  MysqlUserDataAccessDao implements UserDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Query query = session.createQuery("from User");
-        return query.getResultList();
+        Collection <User> users = query.getResultList();
+        session.close();
+        return users;
+
     }
 
     @Override
@@ -91,11 +100,10 @@ public class  MysqlUserDataAccessDao implements UserDao {
         user = (User) session.createQuery("FROM User U WHERE U.username = :userName and U.password = :passWord" ).setParameter("userName", username).setParameter("passWord",password)
                 .uniqueResult();
 
-        if (user != null) {
-            session.close();
-            return user;
-        }
+
         session.close();
-        return new User();
+        return user;
     }
+
+
 }

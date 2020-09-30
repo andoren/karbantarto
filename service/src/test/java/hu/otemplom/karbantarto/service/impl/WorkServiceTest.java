@@ -29,7 +29,7 @@ public class WorkServiceTest {
     public WorkDao dao;
 
     @TestSubject
-    private WorkServiceImpl service;
+    public WorkServiceImpl service;
     Collection<Work> dummyDB;
     User janitor ;
     User userTwo;
