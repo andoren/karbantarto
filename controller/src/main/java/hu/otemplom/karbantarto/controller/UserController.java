@@ -46,7 +46,7 @@ public class UserController {
 
     }
     @PutMapping
-    public void modifyUser(@RequestBody User user) throws UserDoesNotExistsException {
+    public void modifyUser(@RequestBody User user) throws UserDoesNotExistsException, DuplicateUserException {
         service.modifyUser(user);
     }
     @DeleteMapping(path="{id}")

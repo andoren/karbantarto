@@ -54,7 +54,7 @@ public class  MysqlUserDataAccessDao implements UserDao {
             throw new DuplicateUserException("username");
             else throw new DuplicateUserException("email");
         }
-
+        e.printStackTrace();
     }finally {
         session.close();
     }
@@ -64,13 +64,27 @@ public class  MysqlUserDataAccessDao implements UserDao {
     }
 
     @Override
-    public boolean modifyUser(User user) throws UserDoesNotExistsException {
+    public boolean modifyUser(User user) throws UserDoesNotExistsException, DuplicateUserException {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.update(user);
 
-        session.getTransaction().commit();
-        session.close();
+        try {
+            session.update(user);
+            session.getTransaction().commit();
+
+        }catch (Exception e) {
+            if (e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+                session.getTransaction().rollback();
+                if (e.getCause().getCause().getMessage().contains("username"))
+                    throw new DuplicateUserException("username");
+                else throw new DuplicateUserException("email");
+            }
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+
+
 
         return true;
     }

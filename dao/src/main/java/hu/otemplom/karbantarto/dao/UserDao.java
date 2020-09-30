@@ -12,7 +12,7 @@ public interface UserDao {
     void setup();
     void exit();
     int addUser(User user) throws DuplicateUserException, InvalidIdException;
-    boolean modifyUser(User user) throws UserDoesNotExistsException;
+    boolean modifyUser(User user) throws UserDoesNotExistsException, DuplicateUserException;
     boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException;
     Collection<User> getAllUser();
     User getUserByUserId(int userId)throws UserDoesNotExistsException;

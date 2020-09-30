@@ -94,13 +94,13 @@ public class UserServiceTests {
         User pleaseThorwException = service.getUserByUserId(999);
     }
     @Test
-    public void modifyUserTest() throws UserDoesNotExistsException {
+    public void modifyUserTest() throws UserDoesNotExistsException, DuplicateUserException {
         boolean expected = true;
         boolean actual = service.modifyUser(goodUser);
         Assert.assertEquals(expected,actual);
     }
     @Test(expected = UserDoesNotExistsException.class)
-    public void modifyUserInvalidUserTest() throws UserDoesNotExistsException {
+    public void modifyUserInvalidUserTest() throws UserDoesNotExistsException, DuplicateUserException {
         service.modifyUser(errorUser);
     }
 }

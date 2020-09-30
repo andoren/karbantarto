@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean modifyUser(User user) throws UserDoesNotExistsException {
+    public boolean modifyUser(User user) throws UserDoesNotExistsException, DuplicateUserException {
 
         boolean result =  dao.modifyUser(user);
 
