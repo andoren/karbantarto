@@ -8,6 +8,7 @@ import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserExcep
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -15,6 +16,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Collection;
 @Repository("mysqlUserDao")
 public class  MysqlUserDataAccessDao implements UserDao {
@@ -40,11 +42,23 @@ public class  MysqlUserDataAccessDao implements UserDao {
     @Override
     public int addUser(User user) throws DuplicateUserException, InvalidIdException {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        System.out.println(user.getPassword());
+        Transaction transaction = session.beginTransaction();
+    try {
         session.persist(user);
         session.getTransaction().commit();
+
+    }catch (Exception e){
+        if(e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException){
+            transaction.rollback();
+            if(e.getCause().getCause().getMessage().contains("username"))
+            throw new DuplicateUserException("username");
+            else throw new DuplicateUserException("email");
+        }
+
+    }finally {
         session.close();
+    }
+
 
         return user.getId();
     }
@@ -93,12 +107,14 @@ public class  MysqlUserDataAccessDao implements UserDao {
     }
 
     @Override
-    public User login(String username, String password) {
+    public User login(String username, String password)  {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         User user ;
-        user = (User) session.createQuery("FROM User U WHERE U.username = :userName and U.password = :passWord" ).setParameter("userName", username).setParameter("passWord",password)
-                .uniqueResult();
+
+            user = (User) session.createQuery("FROM User U WHERE U.username = :userName and U.password = :passWord").setParameter("userName", username).setParameter("passWord", password)
+                    .uniqueResult();
+
 
 
         session.close();

@@ -35,7 +35,8 @@ public class User {
     private int id;
     @Column(name="fullname",nullable = false)
     private String fullname;
-    @Column(name="username",nullable = false)
+    @Column(name="username",unique = true,nullable = false)
+
     private String username;
     @Enumerated(value = EnumType.STRING)
     @Column(name="role",nullable = false)
@@ -66,7 +67,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    @Column(name="email",unique = true,nullable = false)
     private String email;
 
     public int getId() {
