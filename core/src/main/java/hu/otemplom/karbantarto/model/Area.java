@@ -21,7 +21,7 @@ public class Area {
         this.boss = boss;
     }
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     @Column(name="name", nullable = false)
     private String name;
