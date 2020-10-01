@@ -14,9 +14,7 @@
 	<name>controller</name>
 	<description>Karbantarto projekt</description>
 
-	<properties>
-		<java.version>14</java.version>
-	</properties>
+
 
 	<dependencies>
 		<dependency>

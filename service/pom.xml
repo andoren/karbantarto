@@ -11,6 +11,8 @@
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <artifactId>service</artifactId>
     <dependencies>
@@ -29,6 +31,7 @@
         <dependency>
             <groupId>hu.otemplom.karbantarto</groupId>
             <artifactId>dao</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -42,13 +45,7 @@
             <version>5.2.2.RELEASE</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>hu.otemplom.karbantarto</groupId>
-            <artifactId>dao</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
 
-        </dependency>
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>

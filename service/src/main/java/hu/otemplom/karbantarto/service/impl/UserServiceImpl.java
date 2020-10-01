@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(@Qualifier("mysqlUserDao") UserDao dao) {
-        dao.setup();
+
         this.dao = dao;
 
     }

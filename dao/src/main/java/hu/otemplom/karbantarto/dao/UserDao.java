@@ -9,8 +9,7 @@ import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsE
 import java.util.Collection;
 
 public interface UserDao {
-    void setup();
-    void exit();
+
     int addUser(User user) throws DuplicateUserException, InvalidIdException;
     boolean modifyUser(User user) throws UserDoesNotExistsException, DuplicateUserException;
     boolean deleteUserByUserId(int userId) throws UserDoesNotExistsException;

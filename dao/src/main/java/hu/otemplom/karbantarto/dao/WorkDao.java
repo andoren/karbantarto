@@ -8,8 +8,7 @@ import hu.otemplom.karbantarto.service.Exceptions.WorkService.WorkDoesNotExistsE
 import java.util.Collection;
 
 public interface WorkDao {
-    void setup();
-    void exit();
+
     int addWork(Work work) throws InvalidIdException, InvalidCreationDateException;
     boolean modifyWork(Work work) throws WorkDoesNotExistsException;
     boolean deleteWorkById(int workId)throws WorkDoesNotExistsException;

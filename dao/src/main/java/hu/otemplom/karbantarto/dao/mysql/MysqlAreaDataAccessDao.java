@@ -19,26 +19,11 @@ import java.util.Collection;
 
 @Repository("mysqlAreaDao")
 public class MysqlAreaDataAccessDao implements AreaDao {
-    protected SessionFactory sessionFactory;
-    final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure()
-            .build();
-    public void setup() {
-
-        try {
-            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        } catch (Exception ex) {
-            StandardServiceRegistryBuilder.destroy(registry);
-        }
-    }
-
-    public void exit() {
-        sessionFactory.close();
-    }
 
     @Override
     public int addArea(Area area) throws AreaAlreadyExistsException, InvalidAreaException, InvalidIdException {
-        Session session = sessionFactory.openSession();
+
+        Session session =  SessionSingleton.getSessionFactory().openSession();
         session.beginTransaction();
         session.persist(area);
         session.getTransaction().commit();
@@ -48,52 +33,63 @@ public class MysqlAreaDataAccessDao implements AreaDao {
 
     @Override
     public boolean modifyArea(Area area) throws AreaDoesNotExistsException, InvalidAreaException {
-        Session session = sessionFactory.openSession();
+
+        Session session = SessionSingleton.getSessionFactory().openSession();
         session.beginTransaction();
         session.update(area);
 
         session.getTransaction().commit();
         session.close();
+
         return true;
     }
 
     @Override
     public boolean deleteAreaById(int areaId) throws AreaDoesNotExistsException {
         Area  area = getAreaById(areaId);
-        Session session = sessionFactory.openSession();
+        Session session = SessionSingleton.getSessionFactory().openSession();
         session.beginTransaction();
         session.delete(area);
         session.getTransaction().commit();
         session.close();
+
         return true;
     }
 
     @Override
     public Area getAreaById(int areaId) throws AreaDoesNotExistsException {
-        Session session = sessionFactory.openSession();
+
+        Session session =SessionSingleton.getSessionFactory().openSession();
         session.beginTransaction();
         Area area = session.get(Area.class,areaId);
+        session.getTransaction().commit();
         session.close();
+
         return area;
     }
 
     @Override
     public Collection<Area> getAllArea() {
-        Session session = sessionFactory.openSession();
+
+        Session session = SessionSingleton.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Area");
-        return query.getResultList();
+        Collection<Area> areas = query.getResultList();
+        session.close();
+
+        return areas;
     }
 
     @Override
     public Collection<Area> getAreasByUserId(int userId) {
 
-        Session session = sessionFactory.openSession();
+        Session session = SessionSingleton.getSessionFactory().openSession();
         session.beginTransaction();
         TypedQuery<Area> typedQuery = session.createSQLQuery("select a.id,a.name,boss.id as 'boss' from userareas ua inner join area a on a.id = ua.areaId inner join user boss on a.boss = boss.id where userId = :givenId").addEntity(Area.class);
         typedQuery.setParameter("givenId",userId);
         Collection<Area> areas=  typedQuery.getResultList();
         session.close();
+
         return areas;
 
     }

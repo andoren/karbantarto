@@ -35,7 +35,7 @@ public class Work {
         this.setDoneDate(doneDate);
     }
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int Id;
     @Column(name = "title")
     private String Title;
