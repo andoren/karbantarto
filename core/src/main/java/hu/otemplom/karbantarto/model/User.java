@@ -1,6 +1,7 @@
 package hu.otemplom.karbantarto.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import hu.otemplom.karbantarto.model.Exceptions.User.*;
 
@@ -48,8 +49,17 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="userareas",joinColumns=@JoinColumn(name = "userId"),
             inverseJoinColumns=@JoinColumn(name = "areaId"))
-    @JsonManagedReference
+    @JsonIgnoreProperties("boss")
     Collection<Area> areas = new ArrayList<>();
+    public Collection<Area> getAreas() {
+        return areas;
+    }
+
+    public void setAreas(Collection<Area> areas) {
+        this.areas = areas;
+    }
+
+
 
 
     public String getToken() {

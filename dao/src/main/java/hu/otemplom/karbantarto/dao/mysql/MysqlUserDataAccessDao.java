@@ -58,8 +58,6 @@ public class  MysqlUserDataAccessDao implements UserDao {
     }finally {
         session.close();
     }
-
-
         return user.getId();
     }
 

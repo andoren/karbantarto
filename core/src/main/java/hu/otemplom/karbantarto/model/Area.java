@@ -1,6 +1,7 @@
 package hu.otemplom.karbantarto.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidBossException;
 import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidIdException;
 import hu.otemplom.karbantarto.model.Exceptions.Area.InvalidNameException;
@@ -26,7 +27,7 @@ public class Area {
     private String name;
     @ManyToOne( )
     @JoinColumn(name = "boss", nullable = true)
-    @JsonBackReference
+    @JsonIgnoreProperties("areas")
     private User boss;
 
     public int getId() {
