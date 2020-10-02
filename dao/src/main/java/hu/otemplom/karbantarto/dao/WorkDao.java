@@ -18,7 +18,7 @@ public interface WorkDao {
     Collection<Work> getStartedWorks();
     Collection<Work> getNeedToCheckWorks();
     Collection<Work> getThisMonthDoneWorks();
-    boolean setWorkStarted(int workId,int userId) throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException;
+    boolean setWorkStarted(int workId,int userId) throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException;
     boolean setWorkProcceed(int workId) throws WorkDoesNotExistsException, InvalidProceedDateException;
     boolean setWorkDone(int workId) throws WorkDoesNotExistsException, InvalidDoneDateException;
     boolean setWorkToRejected(int workId) throws WorkDoesNotExistsException, InvalidTitleException, InvalidIdException, InvalidOwnerException, InvalidDescriptionException, InvalidCreationDateException;

@@ -16,7 +16,7 @@ import java.util.Collection;
 @ComponentScan(basePackages = {"hu.otemplom.karbantarto.dao"})
 public class WorkServiceImpl implements WorkService {
     @Autowired
-    public WorkServiceImpl(@Qualifier("fakeWorkDao") WorkDao dao) {
+    public WorkServiceImpl(@Qualifier("mysqlWorkDao") WorkDao dao) {
         this.dao = dao;
     }
 
@@ -68,7 +68,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public boolean setWorkStarted(int workId, int userId) throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException {
+    public boolean setWorkStarted(int workId, int userId) throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException {
         return dao.setWorkStarted(workId,userId);
     }
 
