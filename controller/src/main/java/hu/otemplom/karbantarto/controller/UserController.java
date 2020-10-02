@@ -62,7 +62,7 @@ public class UserController {
         User user = service.login(data.get("username").asText(),data.get("password").asText());
         if(user == null)throw new ResponseStatusException(
                 HttpStatus.UNAUTHORIZED, "Hibás felhasználónév vagy jelszó!");
-        System.out.println(user.getId());
+
         user.setToken(authenticator.generateTokenFromUser(user));
         return user;
     }
