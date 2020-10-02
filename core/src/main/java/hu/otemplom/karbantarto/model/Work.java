@@ -150,4 +150,12 @@ public class Work {
     public boolean getIsDone(){
         return getDoneDate() != null;
     }
+
+    public void setWorkerToNull(){
+        Worker = null;
+    }
+    public void setProceedDateToNull(){
+        ProceedDate = null;
+    }
+
 }

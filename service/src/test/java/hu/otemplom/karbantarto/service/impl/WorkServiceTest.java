@@ -144,13 +144,13 @@ public class WorkServiceTest {
         Assert.assertEquals(expected,actual);
     }
     @Test
-    public void setValidStartedWorkTest() throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException {
+    public void setValidStartedWorkTest() throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException {
         boolean expected = true;
         boolean actual = service.setWorkStarted(1,1);
 
     }
     @Test(expected = WorkDoesNotExistsException.class)
-    public void setInvalidStartedWorkTest() throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException {
+    public void setInvalidStartedWorkTest() throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException {
         service.setWorkStarted(999,1);
     }
     @Test

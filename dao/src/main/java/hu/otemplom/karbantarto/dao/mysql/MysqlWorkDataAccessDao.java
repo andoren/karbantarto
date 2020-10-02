@@ -134,7 +134,7 @@ public class  MysqlWorkDataAccessDao implements WorkDao {
         Session session = SessionSingleton.getSessionFactory().openSession();
         session.beginTransaction();
         Collection<Work> checkNeededWorks = new ArrayList<>();
-        Query query = session.createQuery("from Work w where w.Worker is not null and ProceedDate is not null and CreatedDate is null ");
+        Query query = session.createQuery("from Work w where w.Worker is not null and ProceedDate is not null and DoneDate is null ");
         try {
             checkNeededWorks  = query.getResultList();
         }
@@ -151,7 +151,7 @@ public class  MysqlWorkDataAccessDao implements WorkDao {
         Session session = SessionSingleton.getSessionFactory().openSession();
         session.beginTransaction();
         Collection<Work> thisMonthDonwWorks = new ArrayList<>();
-        Query query = session.createQuery("from Work w where CreatedDate is not null  ");
+        Query query = session.createQuery("from Work w where DoneDate is not null  ");
         try {
             thisMonthDonwWorks  = query.getResultList();
         }
@@ -165,9 +165,9 @@ public class  MysqlWorkDataAccessDao implements WorkDao {
 
     public boolean setWorkStarted(int workId, int userId) throws WorkDoesNotExistsException, InvalidWorkerException, UserDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException {
         Work work = getWorkById(workId);
+        MysqlUserDataAccessDao userdao = new MysqlUserDataAccessDao();
+        User user = userdao.getUserByUserId(userId);
         Session session = SessionSingleton.getSessionFactory().openSession();
-        User user = new User();
-        user.setId(userId);
         work.setWorker(user);
         session.beginTransaction();
         try {
@@ -228,12 +228,13 @@ public class  MysqlWorkDataAccessDao implements WorkDao {
 
     public boolean setWorkToRejected(int workId) throws WorkDoesNotExistsException, InvalidTitleException, InvalidIdException, InvalidOwnerException, InvalidDescriptionException, InvalidCreationDateException {
         Work work = getWorkById(workId);
-        work.setTitle(work.getTitle() + " - Elutasítva");
-        Work newWork = new Work(work.getId(),work.getTitle(),work.getDescription(),work.getOwner(),work.getCreatedDate());
+
+        work.setProceedDateToNull();
+        work.setWorkerToNull();
         Session session = SessionSingleton.getSessionFactory().openSession();
         session.beginTransaction();
         try {
-            session.update(newWork);
+            session.update(work);
             session.getTransaction().commit();
         }
         catch (Exception e){
