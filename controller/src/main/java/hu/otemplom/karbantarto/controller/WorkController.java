@@ -16,6 +16,11 @@ import hu.otemplom.karbantarto.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,8 +34,11 @@ public class WorkController {
     public WorkController(WorkService workService, IUserAuthenticator authenticator) {
         this.authenticator = authenticator;
         this.workService = workService;
+
     }
 
+    @Autowired
+            private SimpMessagingTemplate template;
     WorkService workService;
     IUserAuthenticator authenticator;
     @GetMapping(path="/getnewworks")
@@ -39,12 +47,15 @@ public class WorkController {
         return workService.getNewWorks();
     }
     @PostMapping
+
     public void addWork(@RequestHeader("authorization")String rawToken, @RequestBody Work work) throws InvalidIdException, InvalidCreationDateException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException, InvalidOwnerException {
        try{
            if(authenticator.userIsUserOrAdmin(rawToken)){
                work.setOwner(authenticator.getUserFromRawToken(rawToken));
                work.setCreatedDate(new Date());
                workService.addWork(work);
+               template.convertAndSend("/work/reload","Új munkát adtak hozzá a listához.");
+
            }
        }
         catch (Exception e){
@@ -53,12 +64,16 @@ public class WorkController {
 
     }
     @PutMapping
+
     public void modifyWork(@RequestBody Work work) throws WorkDoesNotExistsException {
         workService.modifyWork(work);
+        template.convertAndSend("/work/reload","Egy munkát módosítottak");
     }
     @DeleteMapping(path = "/{id}")
+
     public void deleteWork(@PathVariable("id")int id ) throws WorkDoesNotExistsException {
         workService.deleteWorkById(id);
+        template.convertAndSend("/work/reload","Egy munkát töröltek.");
     }
     @GetMapping(path = "/getstartedworks")
     public Collection<Work> getWorksInProgress(){
@@ -97,25 +112,34 @@ public class WorkController {
     public void setWorkToStarted(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws UserDoesNotExistsException, InvalidWorkerException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidUsernameException, InvalidFullNameException, InvalidRoleException, InvalidTokenException {
         if(authenticator.userIsJanitor(rawToken)){
             workService.setWorkStarted(workId.get("workId").asInt(),authenticator.getUserFromRawToken(rawToken).getId());
+            template.convertAndSend("/work/reload","Egy munkát elválaltak.");
         }
 
     }
     @PostMapping(path = "/settoproceed")
+
     public void setWorkToProceed(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws InvalidProceedDateException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
         if(authenticator.userIsJanitor(rawToken)){
         workService.setWorkProcceed(workId.get("workId").asInt());
+            template.convertAndSend("/work/reload","Egy munkát befejeztek.");
         }
     }
     @PostMapping(path="/settodone")
     public void setWorkToDone(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws InvalidDoneDateException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
         if(authenticator.userIsUserOrAdmin(rawToken)) {
             workService.setWorkDone(workId.get("workId").asInt());
+            template.convertAndSend("/work/reload","Egy munkát késznek nyílvánítottak.");
+        }else{
+            System.out.println("Tell me Whyeeee??:(");
         }
     }
     @PostMapping(path = "rejectwork")
+
     public void setWorkToRejected(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws WorkDoesNotExistsException, InvalidIdException, InvalidOwnerException, InvalidTitleException, InvalidDescriptionException, InvalidCreationDateException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
         if(authenticator.userIsUserOrAdmin(rawToken)) {
             workService.setWorkToRejected(workId.get("workId").asInt());
+            template.convertAndSend("/work/reload","Egy munkát elutasítottak.");
         }
     }
+
 }

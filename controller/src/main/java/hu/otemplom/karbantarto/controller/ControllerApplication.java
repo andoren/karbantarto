@@ -4,12 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 
 @SpringBootApplication
+@EnableAsync
 @ComponentScan(basePackages = {"hu.otemplom.karbantarto.service"})
 @ComponentScan(basePackages = {"hu.otemplom.karbantarto.dao"})
 public class ControllerApplication {
@@ -29,5 +29,6 @@ public class ControllerApplication {
 		System.out.println(answer2);*/
 		SpringApplication.run(ControllerApplication.class, args);
 	}
+
 
 }
