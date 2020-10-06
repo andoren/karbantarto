@@ -2,6 +2,7 @@ package hu.otemplom.karbantarto.controller;
 
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import hu.otemplom.karbantarto.controller.email.EmailService;
 import hu.otemplom.karbantarto.controller.exceptions.InvalidTokenException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidFullNameException;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidPasswordException;
@@ -12,6 +13,7 @@ import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.model.Work;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 import hu.otemplom.karbantarto.service.Exceptions.WorkService.WorkDoesNotExistsException;
+import hu.otemplom.karbantarto.service.UserService;
 import hu.otemplom.karbantarto.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,17 +28,21 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RequestMapping("api/v1/work")
 @RestController
 public class WorkController {
     @Autowired
-    public WorkController(WorkService workService, IUserAuthenticator authenticator) {
+    public WorkController(WorkService workService, UserService userService,IUserAuthenticator authenticator, EmailService emailService) {
         this.authenticator = authenticator;
         this.workService = workService;
-
+        this.emailService = emailService;
+        this.userService = userService;
     }
 
+    private UserService userService;
+    private EmailService emailService;
     @Autowired
             private SimpMessagingTemplate template;
     WorkService workService;
@@ -54,6 +60,8 @@ public class WorkController {
                work.setOwner(authenticator.getUserFromRawToken(rawToken));
                work.setCreatedDate(new Date());
                workService.addWork(work);
+               emailService.newWorkWasAddedNotifyJanitors(userService.getJanitors().stream().map(User::getEmail)
+                       .collect(Collectors.toList()),work);
                template.convertAndSend("/work/reload","Új munkát adtak hozzá a listához.");
 
            }
@@ -67,6 +75,7 @@ public class WorkController {
 
     public void modifyWork(@RequestBody Work work) throws WorkDoesNotExistsException {
         workService.modifyWork(work);
+
         template.convertAndSend("/work/reload","Egy munkát módosítottak");
     }
     @DeleteMapping(path = "/{id}")
@@ -118,16 +127,18 @@ public class WorkController {
     }
     @PostMapping(path = "/settoproceed")
 
-    public void setWorkToProceed(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws InvalidProceedDateException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+    public void setWorkToProceed(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws InvalidProceedDateException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException, InterruptedException {
         if(authenticator.userIsJanitor(rawToken)){
-        workService.setWorkProcceed(workId.get("workId").asInt());
+            workService.setWorkProcceed(workId.get("workId").asInt());
+            emailService.workHasBeenMarkedAsDoneNotifyAreaBoss(workService.getWorkById(workId.get("workId").asInt()));
             template.convertAndSend("/work/reload","Egy munkát befejeztek.");
         }
     }
     @PostMapping(path="/settodone")
-    public void setWorkToDone(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws InvalidDoneDateException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+    public void setWorkToDone(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws InvalidDoneDateException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException, InterruptedException {
         if(authenticator.userIsUserOrAdmin(rawToken)) {
             workService.setWorkDone(workId.get("workId").asInt());
+            emailService.workHasBeenAccaptedNotifyTheProperJanitor(workService.getWorkById(workId.get("workId").asInt()));
             template.convertAndSend("/work/reload","Egy munkát késznek nyílvánítottak.");
         }else{
             System.out.println("Tell me Whyeeee??:(");
@@ -135,9 +146,10 @@ public class WorkController {
     }
     @PostMapping(path = "rejectwork")
 
-    public void setWorkToRejected(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws WorkDoesNotExistsException, InvalidIdException, InvalidOwnerException, InvalidTitleException, InvalidDescriptionException, InvalidCreationDateException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+    public void setWorkToRejected(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws WorkDoesNotExistsException, InvalidIdException, InvalidOwnerException, InvalidTitleException, InvalidDescriptionException, InvalidCreationDateException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException, InterruptedException {
         if(authenticator.userIsUserOrAdmin(rawToken)) {
             workService.setWorkToRejected(workId.get("workId").asInt());
+            emailService.workHasBeenRejectedNotifyTheProperJanitor(workService.getWorkById(workId.get("workId").asInt()));
             template.convertAndSend("/work/reload","Egy munkát elutasítottak.");
         }
     }

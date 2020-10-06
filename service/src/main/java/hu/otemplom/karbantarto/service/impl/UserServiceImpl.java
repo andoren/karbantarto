@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @ComponentScan(basePackages = {"hu.otemplom.karbantarto.dao"})
@@ -76,6 +77,10 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public List<User> getJanitors() {
+        return dao.getJanitors();
+    }
 
 
 }

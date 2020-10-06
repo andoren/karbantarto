@@ -3,6 +3,7 @@ package hu.otemplom.karbantarto.dao.mysql;
 import hu.otemplom.karbantarto.dao.UserDao;
 import hu.otemplom.karbantarto.model.Area;
 import hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException;
+import hu.otemplom.karbantarto.model.Role;
 import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserException;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.TypedQuery;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Repository("mysqlUserDao")
 public class  MysqlUserDataAccessDao implements UserDao {
 
@@ -123,6 +127,11 @@ public class  MysqlUserDataAccessDao implements UserDao {
         session.close();
 
         return user;
+    }
+
+    @Override
+    public List<User> getJanitors() {
+        return getAllUser().stream().filter(u -> u.getRole() == Role.Janitor).collect(Collectors.toList());
     }
 
 

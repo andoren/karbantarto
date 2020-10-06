@@ -7,6 +7,7 @@ import hu.otemplom.karbantarto.service.Exceptions.UserService.DuplicateUserExcep
 import hu.otemplom.karbantarto.service.Exceptions.UserService.UserDoesNotExistsException;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface UserDao {
 
@@ -16,5 +17,6 @@ public interface UserDao {
     Collection<User> getAllUser();
     User getUserByUserId(int userId)throws UserDoesNotExistsException;
     User login(String username, String password);
+    List<User> getJanitors();
 
 }

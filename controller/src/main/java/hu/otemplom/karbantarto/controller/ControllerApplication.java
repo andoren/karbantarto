@@ -1,11 +1,15 @@
 package hu.otemplom.karbantarto.controller;
 
+import hu.otemplom.karbantarto.controller.email.EmailServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import javax.mail.MessagingException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @SpringBootApplication
@@ -14,7 +18,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ComponentScan(basePackages = {"hu.otemplom.karbantarto.dao"})
 public class ControllerApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MessagingException {
 /*		System.out.println("Playing with dates");
 		Date date1 = new Date(2020,10,2);
 		Date date2 = new Date(2020,9,27);
@@ -28,6 +32,7 @@ public class ControllerApplication {
 		String answer2 = TimeUnit.DAYS.convert(date1.getTime()-date3.getTime(),TimeUnit.MILLISECONDS) < 7?"True":"False";
 		System.out.println(answer2);*/
 		SpringApplication.run(ControllerApplication.class, args);
+
 	}
 
 

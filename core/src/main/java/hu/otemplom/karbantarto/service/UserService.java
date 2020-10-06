@@ -9,6 +9,7 @@ import hu.otemplom.karbantarto.model.User;
 import hu.otemplom.karbantarto.service.Exceptions.UserService.*;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface UserService {
     int addUser(User user) throws DuplicateUserException, InvalidIdException;
@@ -17,6 +18,6 @@ public interface UserService {
     Collection<User> getAllUser();
     User getUserByUserId(int userId)throws UserDoesNotExistsException;
     User login(String username, String password);
-
+    List<User> getJanitors();
 
 }

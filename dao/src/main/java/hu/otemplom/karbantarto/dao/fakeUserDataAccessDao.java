@@ -89,4 +89,9 @@ public class fakeUserDataAccessDao implements UserDao {
         return dummyDB.stream().filter(u->u.getUsername().equals(username) && u.getPassword().equals(password)).findFirst().orElse(null);
     }
 
+    @Override
+    public List<User> getJanitors() {
+        return null;
+    }
+
 }
