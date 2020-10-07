@@ -40,7 +40,7 @@ public class EmailServiceImpl implements EmailService  {
             msg.setFrom(new InternetAddress("otemplomnoreply@gmail.com", false));
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             msg.setSubject(subject);
-            msg.setContent(event, "text/html");
+            msg.setContent(event, "text/html; charset=utf-8");
             msg.setSentDate(new Date());
             Transport.send(msg);
         }
