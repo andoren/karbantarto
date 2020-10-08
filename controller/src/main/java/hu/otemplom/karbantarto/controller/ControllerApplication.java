@@ -42,7 +42,8 @@ public class ControllerApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://10.5.23.203:4200");
+				registry.addMapping("/**").allowedOrigins("http://10.5.23.203:4200").allowedMethods("GET","POST","PUT", "DELETE")
+						;
 			}
 		};
 	}
