@@ -4,8 +4,11 @@ import hu.otemplom.karbantarto.controller.email.EmailServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.mail.MessagingException;
 import java.util.ArrayList;
@@ -33,6 +36,15 @@ public class ControllerApplication {
 		System.out.println(answer2);*/
 		SpringApplication.run(ControllerApplication.class, args);
 
+	}
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("http://10.5.23.203:4200");
+			}
+		};
 	}
 
 
