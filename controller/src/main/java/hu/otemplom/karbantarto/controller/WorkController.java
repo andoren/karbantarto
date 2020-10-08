@@ -73,28 +73,47 @@ public class WorkController {
     }
     @PutMapping
 
-    public void modifyWork(@RequestBody Work work) throws WorkDoesNotExistsException {
-        workService.modifyWork(work);
-
-        template.convertAndSend("/work/reload","Egy munkát módosítottak");
+    public void modifyWork(@RequestHeader("authorization")String rawToken,@RequestBody Work work) throws WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsUserOrAdmin(rawToken)){
+            User user = authenticator.getUserFromRawToken(rawToken);
+            if(user.getId() == work.getOwner().getId() || user.getId() == work.getArea().getBoss().getId() ){
+                workService.modifyWork(work);
+                template.convertAndSend("/work/reload","Egy munkát módosítottak");
+            }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
+        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
     }
     @DeleteMapping(path = "/{id}")
 
-    public void deleteWork(@PathVariable("id")int id ) throws WorkDoesNotExistsException {
-        workService.deleteWorkById(id);
-        template.convertAndSend("/work/reload","Egy munkát töröltek.");
+    public void deleteWork(@RequestHeader("authorization")String rawToken,@PathVariable("id")int id ) throws WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsUserOrAdmin(rawToken)){
+            User user = authenticator.getUserFromRawToken(rawToken);
+            Work work = workService.getWorkById(id);
+            if(user.getId() == work.getOwner().getId() || user.getId() == work.getArea().getBoss().getId() ){
+                workService.deleteWorkById(id);
+                template.convertAndSend("/work/reload","Egy munkát töröltek.");
+            }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
+        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
     }
     @GetMapping(path = "/getstartedworks")
-    public Collection<Work> getWorksInProgress(){
-        return workService.getStartedWorks();
+    public Collection<Work> getWorksInProgress(@RequestHeader("authorization")String rawToken) throws hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsUserOrAdmin(rawToken)){
+            return workService.getStartedWorks();
+        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
+
     }
     @GetMapping(path = "/getneedtocheckworks")
-    public Collection<Work> getNeedToCheckWorks(){
-        return workService.getNeedToCheckWorks();
+    public Collection<Work> getNeedToCheckWorks(@RequestHeader("authorization")String rawToken) throws hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsUserOrAdmin(rawToken)){
+            return workService.getNeedToCheckWorks();
+        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
+
     }
     @GetMapping(path = "/getdoneworks")
-    public Collection<Work> getThisMonthsDoneWorks(){
-        return workService.getThisMonthDoneWorks();
+    public Collection<Work> getThisMonthsDoneWorks(@RequestHeader("authorization")String rawToken) throws hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsUserOrAdmin(rawToken)){
+            return workService.getThisMonthDoneWorks();
+        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
+
     }
     @GetMapping(path="{id}")
     public Work getWorkById(@RequestHeader("authorization")String rawToken,@PathVariable("id")int id) {
@@ -114,8 +133,12 @@ public class WorkController {
 
     }
     @GetMapping(path = "/getuserworks/{id}")
-    public Collection<Work> getUsersWorksByUserId(@PathVariable int id){
-        return workService.getWorksByUserId(id);
+    public Collection<Work> getUsersWorksByUserId(@RequestHeader("authorization")String rawToken,@PathVariable int id) throws hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsUserOrAdmin(rawToken)){
+            return workService.getWorksByUserId(id);
+        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
+
+
     }
     @PostMapping(path="/settostarted")
     public void setWorkToStarted(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws UserDoesNotExistsException, InvalidWorkerException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidUsernameException, InvalidFullNameException, InvalidRoleException, InvalidTokenException {
@@ -126,7 +149,6 @@ public class WorkController {
 
     }
     @PostMapping(path = "/settoproceed")
-
     public void setWorkToProceed(@RequestHeader("authorization")String rawToken,@RequestBody ObjectNode workId) throws InvalidProceedDateException, WorkDoesNotExistsException, hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException, InterruptedException {
         if(authenticator.userIsJanitor(rawToken)){
             workService.setWorkProcceed(workId.get("workId").asInt());

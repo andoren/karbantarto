@@ -68,6 +68,7 @@ public class AreaController {
     }
     @GetMapping(path="userId={userid}")
     public Collection<Area> getAreasByUserId(@PathVariable("userid")int id){
+
         return areaService.getAreasByUserId(id);
     }
 }

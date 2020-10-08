@@ -27,8 +27,7 @@ public class UserController {
     public UserController(UserService service, IUserAuthenticator authenticator) throws InvalidUsernameException, InvalidIdException, InvalidFullNameException, InvalidRoleException {
         this.service = service;
         this.authenticator = authenticator;
-        System.out.print("Valid token: ");
-        System.out.println(" "+authenticator.generateTokenFromUser(new User(1,"Pekár Mihály","misike", Role.Admin)));
+
     }
     @GetMapping
     public Collection<User> getAllUser(@RequestHeader("authorization") String rawToken) throws InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
@@ -38,24 +37,35 @@ public class UserController {
 
     }
     @PostMapping
-    public int addUser(@RequestBody User user) throws InvalidIdException, DuplicateUserException {
+    public int addUser(@RequestHeader("authorization") String rawToken,@RequestBody User user) throws InvalidIdException, DuplicateUserException, InvalidUsernameException, InvalidFullNameException, InvalidRoleException, InvalidTokenException {
+        if(authenticator.userIsAdmin(rawToken)){
+            return  service.addUser(user);
+        }else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Meow2",new InvalidTokenException(""));
 
-           return  service.addUser(user);
 
 
 
     }
     @PutMapping
-    public void modifyUser(@RequestBody User user) throws UserDoesNotExistsException, DuplicateUserException {
-        service.modifyUser(user);
+    public void modifyUser(@RequestHeader("authorization") String rawToken,@RequestBody User user) throws UserDoesNotExistsException, DuplicateUserException, InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsAdmin(rawToken)){
+            service.modifyUser(user);
+        }else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Meow2",new InvalidTokenException(""));
+
     }
     @DeleteMapping(path="{id}")
-    public void deleteUserByUserId(@PathVariable("id") int id) throws UserDoesNotExistsException {
-        service.deleteUserByUserId(id);
+    public void deleteUserByUserId(@RequestHeader("authorization") String rawToken,@PathVariable("id") int id) throws UserDoesNotExistsException, InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsAdmin(rawToken)){
+            service.deleteUserByUserId(id);
+        }else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Meow2",new InvalidTokenException(""));
+
     }
     @GetMapping(path="{id}")
-    public User getUserByUserId(@PathVariable("id")int id) throws UserDoesNotExistsException {
-        return service.getUserByUserId(id);
+    public User getUserByUserId(@RequestHeader("authorization") String rawToken,@PathVariable("id")int id) throws UserDoesNotExistsException, InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
+        if(authenticator.userIsAdmin(rawToken)){
+            return service.getUserByUserId(id);
+        }else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Meow2",new InvalidTokenException(""));
+
     }
     @PostMapping(path = "/login")
     public User loginUser(@RequestBody ObjectNode data){
