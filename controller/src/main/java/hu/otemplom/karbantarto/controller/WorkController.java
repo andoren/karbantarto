@@ -96,23 +96,20 @@ public class WorkController {
     }
     @GetMapping(path = "/getstartedworks")
     public Collection<Work> getWorksInProgress(@RequestHeader("authorization")String rawToken) throws hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
-        if(authenticator.getUserFromRawToken(rawToken) != null){
+
             return workService.getStartedWorks();
-        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
 
     }
     @GetMapping(path = "/getneedtocheckworks")
     public Collection<Work> getNeedToCheckWorks(@RequestHeader("authorization")String rawToken) throws hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
-        if(authenticator.getUserFromRawToken(rawToken) != null){
+
             return workService.getNeedToCheckWorks();
-        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
 
     }
     @GetMapping(path = "/getdoneworks")
     public Collection<Work> getThisMonthsDoneWorks(@RequestHeader("authorization")String rawToken) throws hu.otemplom.karbantarto.model.Exceptions.User.InvalidIdException, InvalidRoleException, InvalidFullNameException, InvalidUsernameException, InvalidTokenException {
-        if(authenticator.getUserFromRawToken(rawToken) != null){
+
             return workService.getThisMonthDoneWorks();
-        }else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Meow2");
 
     }
     @GetMapping(path="{id}")
